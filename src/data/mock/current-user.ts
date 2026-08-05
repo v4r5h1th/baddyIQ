@@ -1,0 +1,38 @@
+import type { User } from '@/types';
+
+export const currentUser: User = {
+  id: 'me',
+  name: 'Alex Carter',
+  email: 'alex.carter@rallyiq.app',
+  avatarUrl: 'https://i.pravatar.cc/150?img=68',
+  bannerUrl: 'https://picsum.photos/seed/rallyiq-banner/800/300',
+  age: 24,
+  dominantHand: 'right',
+  skillLevel: 'advanced',
+  goal: 'compete',
+  country: 'United States',
+  countryFlag: '🇺🇸',
+  rating: 1842,
+  globalRank: 1284,
+  regionalRank: 63,
+  friendRank: 2,
+  careerStats: {
+    totalMatches: 87,
+    wins: 54,
+    losses: 33,
+    winRate: 62,
+    favouriteShot: 'Smash',
+    longestRallySeconds: 68,
+    avgRallyLengthSeconds: 14,
+    distanceCoveredKm: 132.4,
+    currentStreak: 4,
+  },
+  radar: {
+    attack: 82,
+    defence: 68,
+    movement: 74,
+    recovery: 60,
+    consistency: 71,
+  },
+  createdAt: '2025-01-14T09:00:00.000Z',
+};
