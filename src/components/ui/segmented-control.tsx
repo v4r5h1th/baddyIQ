@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn';
 import { Pressable, Text, View } from 'react-native';
 
 interface SegmentedControlProps<T extends string> {
@@ -8,21 +7,41 @@ interface SegmentedControlProps<T extends string> {
   className?: string;
 }
 
-export function SegmentedControl<T extends string>({ options, value, onChange, className }: SegmentedControlProps<T>) {
+export function SegmentedControl<T extends string>({ options, value, onChange }: SegmentedControlProps<T>) {
   return (
-    <View className={cn('flex-row rounded-2xl bg-bg-input p-1', className)}>
-      {options.map((option) => {
-        const active = option.value === value;
+    <View
+      style={{
+        flexDirection: 'row',
+        borderRadius: 16,
+        backgroundColor: '#F8E9FD',
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
+        padding: 4,
+        gap: 4,
+      }}
+    >
+      {options.map((opt) => {
+        const selected = opt.value === value;
         return (
           <Pressable
-            key={option.value}
-            onPress={() => onChange(option.value)}
-            accessibilityRole="button"
-            accessibilityState={{ selected: active }}
-            className={cn('flex-1 items-center justify-center rounded-xl py-2.5', active && 'bg-primary-500')}
+            key={opt.value}
+            onPress={() => onChange(opt.value)}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              borderRadius: 12,
+              paddingVertical: 8,
+              backgroundColor: selected ? '#6E32CC' : 'transparent',
+            }}
           >
-            <Text className={cn('text-sm font-semibold', active ? 'text-white' : 'text-text-secondary')}>
-              {option.label}
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: '700',
+                color: selected ? '#FFFFFF' : '#615092',
+              }}
+            >
+              {opt.label}
             </Text>
           </Pressable>
         );

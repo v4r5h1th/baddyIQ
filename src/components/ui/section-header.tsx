@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn';
 import { Pressable, Text, View } from 'react-native';
 
 interface SectionHeaderProps {
@@ -9,18 +8,18 @@ interface SectionHeaderProps {
   className?: string;
 }
 
-export function SectionHeader({ title, actionLabel, onActionPress, subtitle, className }: SectionHeaderProps) {
+export function SectionHeader({ title, actionLabel, onActionPress, subtitle }: SectionHeaderProps) {
   return (
-    <View className={cn('flex-row items-end justify-between', className)}>
-      <View>
-        <Text className="text-lg font-bold text-text">{title}</Text>
-        {subtitle ? <Text className="mt-0.5 text-sm text-text-secondary">{subtitle}</Text> : null}
+    <View style={{ gap: 2 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: 17, fontWeight: '700', color: '#0A0841', letterSpacing: -0.3 }}>{title}</Text>
+        {actionLabel && onActionPress ? (
+          <Pressable onPress={onActionPress} hitSlop={8}>
+            <Text style={{ fontSize: 13, fontWeight: '700', color: '#6E32CC' }}>{actionLabel}</Text>
+          </Pressable>
+        ) : null}
       </View>
-      {actionLabel ? (
-        <Pressable onPress={onActionPress} accessibilityRole="button" hitSlop={8}>
-          <Text className="text-sm font-semibold text-primary-400">{actionLabel}</Text>
-        </Pressable>
-      ) : null}
+      {subtitle ? <Text style={{ fontSize: 12, color: '#615092' }}>{subtitle}</Text> : null}
     </View>
   );
 }

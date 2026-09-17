@@ -6,27 +6,45 @@ import { Text, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
 export default function SplashScreenRoute() {
-  const { hasSeenOnboarding, isAuthenticated, hasCompletedProfileSetup, hasGrantedPermissions } = useAuthStore();
+  const { isAuthenticated, hasSeenOnboarding } = useAuthStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!hasSeenOnboarding) return router.replace('/(onboarding)/welcome');
-      if (!isAuthenticated) return router.replace('/(auth)/login');
-      if (!hasCompletedProfileSetup) return router.replace('/(profile-setup)/name');
-      if (!hasGrantedPermissions) return router.replace('/(permissions)/camera');
-      return router.replace('/(tabs)');
-    }, 1400);
+      // By default or when authenticated, go directly to (tabs)
+      if (isAuthenticated) {
+        return router.replace('/(tabs)');
+      }
+      if (!hasSeenOnboarding) {
+        return router.replace('/(onboarding)/welcome');
+      }
+      return router.replace('/(auth)/login');
+    }, 800);
     return () => clearTimeout(timer);
-  }, [hasSeenOnboarding, isAuthenticated, hasCompletedProfileSetup, hasGrantedPermissions]);
+  }, [isAuthenticated, hasSeenOnboarding]);
 
   return (
-    <View className="flex-1 items-center justify-center bg-bg">
-      <Animated.View entering={ZoomIn.duration(500)} className="h-20 w-20 items-center justify-center rounded-3xl bg-primary-500">
-        <Feather name="crosshair" size={40} color="#fff" />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F5DDFD' }}>
+      <Animated.View
+        entering={ZoomIn.duration(500)}
+        style={{
+          width: 80,
+          height: 80,
+          borderRadius: 28,
+          backgroundColor: '#6E32CC',
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowColor: '#6E32CC',
+          shadowOffset: { width: 0, height: 8 },
+          shadowOpacity: 0.3,
+          shadowRadius: 16,
+          elevation: 8,
+        }}
+      >
+        <Feather name="crosshair" size={40} color="#FFFFFF" />
       </Animated.View>
-      <Animated.View entering={FadeIn.delay(200).duration(500)} className="mt-5 items-center">
-        <Text className="text-3xl font-bold text-text">RallyIQ</Text>
-        <Text className="mt-1 text-sm text-text-secondary">AI-powered badminton coaching</Text>
+      <Animated.View entering={FadeIn.delay(200).duration(500)} style={{ marginTop: 20, alignItems: 'center' }}>
+        <Text style={{ fontSize: 32, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>BaddyIQ</Text>
+        <Text style={{ marginTop: 4, fontSize: 14, color: '#615092', fontWeight: '500' }}>AI-powered badminton coaching</Text>
       </Animated.View>
     </View>
   );

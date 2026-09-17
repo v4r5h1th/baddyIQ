@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input, PasswordInput } from '@/components/ui/input';
 import { useAuthStore } from '@/store/auth.store';
-import { useToastStore } from '@/store/toast.store';
 import { Feather } from '@expo/vector-icons';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
@@ -11,78 +10,103 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function LoginScreen() {
   const [email, setEmail] = useState('alex.carter@rallyiq.app');
   const [password, setPassword] = useState('••••••••');
-  const { login, continueWithGoogle, continueWithApple, isLoading, error, clearError } = useAuthStore();
-  const showToast = useToastStore((s) => s.show);
+  const { login, skipToApp, isLoading, error, clearError } = useAuthStore();
 
   async function handleLogin() {
     clearError();
     await login(email, password);
-    if (!useAuthStore.getState().error) {
-      router.replace('/(profile-setup)/name');
-    }
+    router.replace('/(tabs)');
   }
 
-  async function handleSocial(provider: 'google' | 'apple') {
-    if (provider === 'google') await continueWithGoogle();
-    else await continueWithApple();
-    showToast(`Signed in with ${provider === 'google' ? 'Google' : 'Apple'}`, 'success');
-    router.replace('/(profile-setup)/name');
+  function handleSkip() {
+    skipToApp();
+    router.replace('/(tabs)');
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-bg">
-      <ScrollView contentContainerClassName="gap-6 px-6 py-8" keyboardShouldPersistTaps="handled">
-        <View className="items-center gap-2">
-          <View className="h-16 w-16 items-center justify-center rounded-2xl bg-primary-500">
-            <Feather name="crosshair" size={30} color="#fff" />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }}>
+      <ScrollView contentContainerStyle={{ gap: 24, paddingHorizontal: 24, paddingVertical: 32 }} keyboardShouldPersistTaps="handled">
+        <View style={{ alignItems: 'center', gap: 8 }}>
+          <View
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 24,
+              backgroundColor: '#6E32CC',
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#6E32CC',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.25,
+              shadowRadius: 12,
+              elevation: 6,
+            }}
+          >
+            <Feather name="crosshair" size={30} color="#FFFFFF" />
           </View>
-          <Text className="mt-2 text-2xl font-bold text-text">Welcome back</Text>
-          <Text className="text-sm text-text-secondary">Log in to continue your training</Text>
+          <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', marginTop: 8 }}>Welcome back</Text>
+          <Text style={{ fontSize: 14, color: '#615092' }}>Log in to continue your training</Text>
         </View>
 
-        <View className="gap-4">
+        <View style={{ gap: 16 }}>
           <Input label="Email" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" leftIcon="mail" />
           <PasswordInput label="Password" value={password} onChangeText={setPassword} />
-          {error ? <Text className="text-sm text-danger">{error}</Text> : null}
+          {error ? <Text style={{ fontSize: 13, color: '#EF5350' }}>{error}</Text> : null}
           <Link href="/(auth)/forgot-password" asChild>
-            <Pressable className="self-end">
-              <Text className="text-sm font-medium text-primary-400">Forgot password?</Text>
+            <Pressable style={{ alignSelf: 'flex-end' }}>
+              <Text style={{ fontSize: 13, fontWeight: '600', color: '#6E32CC' }}>Forgot password?</Text>
             </Pressable>
           </Link>
           <Button label="Log In" onPress={handleLogin} isLoading={isLoading} fullWidth size="lg" />
         </View>
 
-        <View className="flex-row items-center gap-3">
-          <View className="h-px flex-1 bg-border" />
-          <Text className="text-xs text-text-muted">or continue with</Text>
-          <View className="h-px flex-1 bg-border" />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <View style={{ height: 1, flex: 1, backgroundColor: '#EAD0F5' }} />
+          <Text style={{ fontSize: 12, color: '#8F7FB8' }}>or continue with</Text>
+          <View style={{ height: 1, flex: 1, backgroundColor: '#EAD0F5' }} />
         </View>
 
-        <View className="flex-row gap-3">
+        <View style={{ flexDirection: 'row', gap: 12 }}>
           <Button
             label="Google"
             variant="secondary"
             className="flex-1"
-            leftIcon={<Feather name="chrome" size={16} color="#F4F6FB" />}
-            onPress={() => handleSocial('google')}
+            leftIcon={<Feather name="chrome" size={16} color="#0A0841" />}
+            onPress={handleSkip}
           />
           <Button
             label="Apple"
             variant="secondary"
             className="flex-1"
-            leftIcon={<Feather name="smartphone" size={16} color="#F4F6FB" />}
-            onPress={() => handleSocial('apple')}
+            leftIcon={<Feather name="smartphone" size={16} color="#0A0841" />}
+            onPress={handleSkip}
           />
         </View>
 
-        <View className="flex-row justify-center gap-1">
-          <Text className="text-sm text-text-secondary">Don&apos;t have an account?</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6 }}>
+          <Text style={{ fontSize: 14, color: '#615092' }}>Don&apos;t have an account?</Text>
           <Link href="/(auth)/signup" asChild>
             <Pressable>
-              <Text className="text-sm font-semibold text-primary-400">Sign Up</Text>
+              <Text style={{ fontSize: 14, fontWeight: '700', color: '#6E32CC' }}>Sign Up</Text>
             </Pressable>
           </Link>
         </View>
+
+        <Pressable
+          onPress={handleSkip}
+          style={{
+            alignSelf: 'center',
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 20,
+            backgroundColor: '#F9EDFD',
+            marginTop: 4,
+          }}
+        >
+          <Text style={{ fontSize: 13, fontWeight: '700', color: '#6E32CC' }}>
+            Explore App as Guest →
+          </Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

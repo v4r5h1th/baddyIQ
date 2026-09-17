@@ -1,48 +1,46 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
       colors: {
         bg: {
-          DEFAULT: '#0B0E14',
-          elevated: '#141926',
-          card: '#1B2130',
-          input: '#1E2536',
+          DEFAULT: '#F5DDFD',      // Main background
+          card: '#F9EDFD',         // Surface / Card
+          surface2: '#F8E9FD',     // Secondary Surface
+          input: '#F8E9FD',
+          elevated: '#F8E9FD',
         },
-        surface: '#1B2130',
         border: {
-          DEFAULT: '#262E42',
-          light: '#333C54',
+          DEFAULT: '#EAD0F5',
+          light: '#F3E2FB',
         },
         primary: {
-          DEFAULT: '#5B8CFF',
-          50: '#EEF3FF',
-          100: '#DCE6FF',
-          200: '#B9CDFF',
-          300: '#8FADFF',
-          400: '#6E97FF',
-          500: '#5B8CFF',
-          600: '#3D6BE8',
-          700: '#2E52B8',
-          800: '#213A87',
-          900: '#152556',
+          50:  '#FBF5FE',
+          100: '#F6EBFC',
+          200: '#EAD0F5',
+          300: '#D5A8ED',
+          400: '#8B52E3',
+          500: '#6E32CC',          // Primary Purple
+          600: '#5F28B5',
+          700: '#5621A8',
+          800: '#431985',
+          900: '#2F115E',
         },
         accent: {
-          DEFAULT: '#20E3B2',
-          light: '#5CF3D2',
-          dark: '#0FAF8A',
+          DEFAULT: '#FAC0F6',      // Accent Pink
+          light: '#FCE0FB',
+          dark: '#D46CC7',
         },
-        warn: '#FFB020',
-        danger: '#FF5C6C',
-        win: '#20E3B2',
-        loss: '#FF5C6C',
+        warn: '#FFA726',
+        danger: '#EF5350',
+        win: '#6E32CC',
+        loss: '#D46CC7',
         text: {
-          DEFAULT: '#F4F6FB',
-          secondary: '#9AA3B8',
-          muted: '#6B7385',
+          DEFAULT: '#0A0841',      // Primary Text
+          secondary: '#615092',    // Secondary Text
+          muted: '#8F7FB8',
         },
       },
       fontFamily: {
@@ -50,6 +48,7 @@ module.exports = {
       },
       borderRadius: {
         xl2: '28px',
+        xl3: '36px',
       },
     },
   },

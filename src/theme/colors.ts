@@ -1,31 +1,49 @@
-// Mirrors tailwind.config.js palette for use in SVG / chart code where className isn't available.
+// Exact color palette as requested by user
 export const palette = {
-  bg: '#0B0E14',
-  bgElevated: '#141926',
-  card: '#1B2130',
-  input: '#1E2536',
-  border: '#262E42',
-  borderLight: '#333C54',
-  primary: '#5B8CFF',
-  primaryLight: '#8FADFF',
-  primaryDark: '#3D6BE8',
-  accent: '#20E3B2',
-  accentLight: '#5CF3D2',
-  accentDark: '#0FAF8A',
-  warn: '#FFB020',
-  danger: '#FF5C6C',
-  win: '#20E3B2',
-  loss: '#FF5C6C',
-  text: '#F4F6FB',
-  textSecondary: '#9AA3B8',
-  textMuted: '#6B7385',
+  // Backgrounds & Surfaces
+  bg: '#F5DDFD',              // Main background
+  card: '#F9EDFD',            // Surface / Card
+  surfaceSecondary: '#F8E9FD',// Secondary Surface
+  input: '#F8E9FD',           // Input background
+  bgElevated: '#F8E9FD',
+
+  // Borders
+  border: '#EAD0F5',
+  borderLight: '#F3E2FB',
+
+  // Primary Purple
+  primary: '#6E32CC',         // Primary Purple
+  primaryLight: '#8B52E3',
+  primaryDark: '#5621A8',
+
+  // Accent Pink
+  accent: '#FAC0F6',          // Accent Pink
+  accentLight: '#FCE0FB',
+  accentDark: '#D46CC7',
+
+  // Status
+  warn: '#FFA726',
+  danger: '#EF5350',
+  win: '#6E32CC',
+  loss: '#D46CC7',
+
+  // Typography
+  text: '#0A0841',            // Primary Text
+  textSecondary: '#615092',   // Secondary Text
+  textMuted: '#8F7FB8',
 } as const;
 
-export const chartSeries = [palette.primary, palette.accent, palette.warn, palette.danger, palette.primaryLight];
+export const chartSeries = [
+  palette.primary,
+  palette.accentDark,
+  palette.primaryLight,
+  palette.accent,
+  '#A87FE8',
+];
 
 export const performanceColors: Record<'attack' | 'defence' | 'movement' | 'recovery', string> = {
-  attack: '#FF5C6C',
-  defence: '#5B8CFF',
-  movement: '#20E3B2',
-  recovery: '#FFB020',
+  attack: '#6E32CC',
+  defence: '#D46CC7',
+  movement: '#8B52E3',
+  recovery: '#FAC0F6',
 };

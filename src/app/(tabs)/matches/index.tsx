@@ -33,16 +33,16 @@ export default function MatchesScreen() {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
-      <View className="gap-4 px-5 pt-2">
-        <Text className="text-2xl font-bold text-text">Match History</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
+      <View style={{ gap: 12, paddingHorizontal: 20, paddingTop: 8 }}>
+        <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>Match History</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} placeholder="Search opponents..." />
         <SegmentedControl options={filters} value={filter} onChange={setFilter} />
       </View>
       <FlatList
         data={filtered}
         keyExtractor={(m) => m.id}
-        contentContainerClassName="gap-3 px-5 pb-10 pt-4"
+        contentContainerStyle={{ gap: 12, paddingHorizontal: 20, paddingBottom: 40, paddingTop: 16 }}
         renderItem={({ item }) => (
           <MatchCard
             match={item}

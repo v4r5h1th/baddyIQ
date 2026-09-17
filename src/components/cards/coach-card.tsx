@@ -5,23 +5,43 @@ export function CoachCard({ summary, onPress }: { summary: string; onPress?: () 
   return (
     <Pressable
       onPress={onPress}
-      className="gap-3 rounded-3xl border border-border bg-bg-card p-4 active:opacity-80"
+      style={{
+        gap: 12,
+        borderRadius: 24,
+        backgroundColor: '#F9EDFD',
+        padding: 20,
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
+        shadowColor: '#6E32CC',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.1,
+        shadowRadius: 16,
+        elevation: 4,
+      }}
     >
-      <View className="flex-row items-center gap-2">
-        <View className="h-8 w-8 items-center justify-center rounded-full bg-accent-dark/20">
-          <Feather name="message-circle" size={16} color="#20E3B2" />
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              backgroundColor: '#F8E9FD',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Feather name="zap" size={16} color="#6E32CC" />
+          </View>
+          <Text style={{ fontSize: 13, fontWeight: '700', color: '#6E32CC', letterSpacing: 0.5 }}>
+            AI COACH INSIGHT
+          </Text>
         </View>
-        <Text className="text-xs font-semibold uppercase tracking-wide text-accent">Coach Summary</Text>
+        <Feather name="arrow-right" size={18} color="#6E32CC" />
       </View>
-      <Text numberOfLines={4} className="text-sm leading-5 text-text-secondary">
+      <Text style={{ fontSize: 14, color: '#0A0841', lineHeight: 22, fontWeight: '500' }}>
         {summary}
       </Text>
-      {onPress ? (
-        <View className="flex-row items-center gap-1">
-          <Text className="text-sm font-semibold text-primary-400">Ask Coach</Text>
-          <Feather name="arrow-right" size={14} color="#5B8CFF" />
-        </View>
-      ) : null}
     </Pressable>
   );
 }

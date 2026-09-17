@@ -1,5 +1,4 @@
 import { PermissionScreen } from '@/components/features/permissions/permission-screen';
-import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
@@ -8,9 +7,12 @@ export default function NotificationsPermissionScreen() {
 
   async function handleAllow() {
     setIsLoading(true);
-    await Notifications.requestPermissionsAsync();
-    setIsLoading(false);
-    router.push('/(permissions)/storage');
+    // Expo Go SDK 53+ does not support native remote push notifications directly in Expo Go
+    // Mock successful permission grant for Expo Go compatibility
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push('/(permissions)/storage');
+    }, 200);
   }
 
   return (
