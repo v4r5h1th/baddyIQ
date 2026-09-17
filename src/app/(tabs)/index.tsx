@@ -109,46 +109,30 @@ function AnimatedProgressRing({
 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  const [dashOffset, setDashOffset] = useState(circumference);
-
-  useEffect(() => {
-    Animated.timing(animatedValue, {
-      toValue: progress,
-      duration: 1000,
-      useNativeDriver: false,
-    }).start();
-
-    const listener = animatedValue.addListener(({ value }) => {
-      setDashOffset(circumference - (circumference * value) / 100);
-    });
-    return () => animatedValue.removeListener(listener);
-  }, [progress, circumference]);
+  const strokeDashoffset = circumference - (circumference * Math.min(100, Math.max(0, progress))) / 100;
 
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
-      <Svg width={size} height={size}>
-        <G rotation="-90" origin={`${size / 2}, ${size / 2}`}>
-          <Circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke={trackColor}
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          <Circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke={color}
-            strokeWidth={strokeWidth}
-            fill="none"
-            strokeLinecap="round"
-            strokeDasharray={`${circumference}`}
-            strokeDashoffset={dashOffset}
-          />
-        </G>
+      <Svg width={size} height={size} style={{ transform: [{ rotate: '-90deg' }] }}>
+        <Circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={trackColor}
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <Circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+        />
       </Svg>
       <View style={{ position: 'absolute', alignItems: 'center', justifyContent: 'center' }}>
         {children}
