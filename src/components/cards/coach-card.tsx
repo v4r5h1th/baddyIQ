@@ -5,21 +5,42 @@ export function CoachCard({ summary, onPress }: { summary: string; onPress?: () 
   return (
     <Pressable
       onPress={onPress}
-      className="gap-3 rounded-3xl border border-border bg-bg-card p-4 active:opacity-80"
+      style={{
+        gap: 12,
+        borderRadius: 24,
+        backgroundColor: '#FFFFFF',
+        padding: 18,
+        shadowColor: '#7B4FD4',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 14,
+        elevation: 4,
+      }}
     >
-      <View className="flex-row items-center gap-2">
-        <View className="h-8 w-8 items-center justify-center rounded-full bg-accent-dark/20">
-          <Feather name="message-circle" size={16} color="#20E3B2" />
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 17,
+            backgroundColor: '#F0ECFF',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={{ fontSize: 14 }}>✦</Text>
         </View>
-        <Text className="text-xs font-semibold uppercase tracking-wide text-accent">Coach Summary</Text>
+        <Text style={{ fontSize: 11, fontWeight: '700', color: '#7B4FD4', letterSpacing: 0.8 }}>
+          AI COACH SAYS
+        </Text>
       </View>
-      <Text numberOfLines={4} className="text-sm leading-5 text-text-secondary">
+      <Text numberOfLines={4} style={{ fontSize: 14, lineHeight: 22, color: '#5C4F8A', fontWeight: '500' }}>
         {summary}
       </Text>
       {onPress ? (
-        <View className="flex-row items-center gap-1">
-          <Text className="text-sm font-semibold text-primary-400">Ask Coach</Text>
-          <Feather name="arrow-right" size={14} color="#5B8CFF" />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          <Text style={{ fontSize: 13, fontWeight: '700', color: '#7B4FD4' }}>Ask Coach</Text>
+          <Feather name="arrow-right" size={14} color="#7B4FD4" />
         </View>
       ) : null}
     </Pressable>

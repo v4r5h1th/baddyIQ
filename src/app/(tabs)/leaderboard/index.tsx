@@ -31,13 +31,16 @@ export default function LeaderboardScreen() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
-      <View className="gap-4 px-5 pt-2">
-        <View className="flex-row items-center justify-between">
-          <Text className="text-2xl font-bold text-text">Leaderboard</Text>
-          <Pressable onPress={() => router.push('/(tabs)/leaderboard/compare')} className="flex-row items-center gap-1 rounded-full bg-bg-card px-3 py-2">
-            <Feather name="users" size={14} color="#8FADFF" />
-            <Text className="text-xs font-semibold text-primary-300">Compare</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F0ECFF' }} edges={['top']}>
+      <View style={{ gap: 12, paddingHorizontal: 20, paddingTop: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={{ fontSize: 26, fontWeight: '800', color: '#1E1448', letterSpacing: -0.5 }}>Leaderboard</Text>
+          <Pressable
+            onPress={() => router.push('/(tabs)/leaderboard/compare')}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 20, backgroundColor: '#FFFFFF', paddingHorizontal: 14, paddingVertical: 8, shadowColor: '#7B4FD4', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 2 }}
+          >
+            <Feather name="users" size={14} color="#7B4FD4" />
+            <Text style={{ fontSize: 12, fontWeight: '700', color: '#7B4FD4' }}>Compare</Text>
           </Pressable>
         </View>
         <SegmentedControl options={scopes} value={scope} onChange={setScope} />
@@ -46,7 +49,7 @@ export default function LeaderboardScreen() {
       <FlatList
         data={entries}
         keyExtractor={(e) => e.userId}
-        contentContainerClassName="gap-2 px-5 pb-10 pt-4"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 20, paddingBottom: 40, paddingTop: 16 }}
         renderItem={({ item }) => (
           <LeaderboardCard
             entry={item}

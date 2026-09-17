@@ -1,6 +1,5 @@
 import { Avatar } from '@/components/ui/avatar';
 import type { LeaderboardEntry } from '@/types';
-import { cn } from '@/utils/cn';
 import { Feather } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
 
@@ -11,33 +10,46 @@ const trendIcon: Record<LeaderboardEntry['trend'], keyof typeof Feather.glyphMap
 };
 
 const trendColor: Record<LeaderboardEntry['trend'], string> = {
-  up: '#20E3B2',
-  down: '#FF5C6C',
-  same: '#6B7385',
+  up: '#7B4FD4',
+  down: '#F06292',
+  same: '#9087B8',
 };
 
 export function LeaderboardCard({ entry, onPress, highlight }: { entry: LeaderboardEntry; onPress?: () => void; highlight?: boolean }) {
   return (
     <Pressable
       onPress={onPress}
-      className={cn(
-        'flex-row items-center gap-3 rounded-2xl border p-3',
-        highlight ? 'border-primary-500 bg-primary-900/30' : 'border-border bg-bg-card',
-      )}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        borderRadius: 20,
+        backgroundColor: highlight ? '#EDE8FF' : '#FFFFFF',
+        padding: 14,
+        borderWidth: highlight ? 1.5 : 0,
+        borderColor: highlight ? '#7B4FD4' : 'transparent',
+        shadowColor: '#7B4FD4',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: highlight ? 0.15 : 0.06,
+        shadowRadius: 8,
+        elevation: highlight ? 4 : 2,
+      }}
     >
-      <Text className="w-7 text-center text-sm font-bold text-text-secondary">{entry.rank}</Text>
+      <Text style={{ width: 28, textAlign: 'center', fontSize: 13, fontWeight: '800', color: '#9087B8' }}>
+        {entry.rank}
+      </Text>
       <Avatar uri={entry.avatarUrl} name={entry.name} size={44} />
-      <View className="flex-1">
-        <Text className="font-semibold text-text">{entry.name}</Text>
-        <Text className="text-xs text-text-secondary">
-          {entry.countryFlag} {entry.country} • {entry.winRate}% WR
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontWeight: '700', color: '#1E1448', fontSize: 14 }}>{entry.name}</Text>
+        <Text style={{ fontSize: 11, color: '#9087B8', marginTop: 2 }}>
+          {entry.countryFlag} {entry.country} · {entry.winRate}% WR
         </Text>
       </View>
-      <View className="items-end gap-1">
-        <Text className="font-bold text-text">{entry.rating}</Text>
-        <View className="flex-row items-center gap-1">
-          <Feather name={trendIcon[entry.trend]} size={12} color={trendColor[entry.trend]} />
-          <Text style={{ color: trendColor[entry.trend] }} className="text-xs font-medium">
+      <View style={{ alignItems: 'flex-end', gap: 4 }}>
+        <Text style={{ fontWeight: '800', color: '#1E1448', fontSize: 15 }}>{entry.rating}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+          <Feather name={trendIcon[entry.trend]} size={11} color={trendColor[entry.trend]} />
+          <Text style={{ color: trendColor[entry.trend], fontSize: 11, fontWeight: '600' }}>
             {entry.trendDelta || '—'}
           </Text>
         </View>

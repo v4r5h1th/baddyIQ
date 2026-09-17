@@ -20,25 +20,57 @@ export default function ProfileScreen() {
   if (!user) return null;
 
   return (
-    <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
-      <ScrollView contentContainerClassName="gap-6 pb-10">
-        <View className="h-36 w-full">
-          <Image source={{ uri: user.bannerUrl }} className="h-36 w-full" />
-        </View>
-        <View className="-mt-14 items-center gap-2 px-5">
-          <Image source={{ uri: user.avatarUrl }} className="h-24 w-24 rounded-full border-4 border-bg" />
-          <Text className="text-xl font-bold text-text">{user.name}</Text>
-          <Text className="text-sm text-text-secondary">{user.countryFlag} {user.country} • Rank #{user.globalRank}</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F0ECFF' }} edges={['top']}>
+      <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 40 }}>
+        {/* Banner */}
+        <View style={{ height: 140, width: '100%' }}>
+          <Image source={{ uri: user.bannerUrl }} style={{ height: 140, width: '100%' }} />
         </View>
 
-        <View className="flex-row gap-3 px-5">
+        {/* Avatar & Name */}
+        <View style={{ marginTop: -56, alignItems: 'center', gap: 6, paddingHorizontal: 20 }}>
+          <Image
+            source={{ uri: user.avatarUrl }}
+            style={{
+              width: 96,
+              height: 96,
+              borderRadius: 48,
+              borderWidth: 4,
+              borderColor: '#F0ECFF',
+            }}
+          />
+          <Text style={{ fontSize: 22, fontWeight: '800', color: '#1E1448', marginTop: 4 }}>{user.name}</Text>
+          <Text style={{ fontSize: 13, color: '#9087B8' }}>
+            {user.countryFlag} {user.country} · Rank #{user.globalRank}
+          </Text>
+        </View>
+
+        {/* Stats */}
+        <View style={{ flexDirection: 'row', gap: 10, paddingHorizontal: 20 }}>
           <StatisticCard icon="trending-up" label="Rating" value={`${user.rating}`} />
           <StatisticCard icon="percent" label="Win Rate" value={`${user.careerStats.winRate}%`} />
           <StatisticCard icon="activity" label="Matches" value={`${user.careerStats.totalMatches}`} />
         </View>
 
-        <View className="items-center gap-3 rounded-3xl border border-border bg-bg-card p-4 mx-5">
-          <Text className="self-start text-sm font-semibold text-text">Performance Radar</Text>
+        {/* Performance Radar */}
+        <View
+          style={{
+            alignItems: 'center',
+            gap: 12,
+            borderRadius: 24,
+            backgroundColor: '#FFFFFF',
+            padding: 18,
+            marginHorizontal: 20,
+            shadowColor: '#7B4FD4',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.1,
+            shadowRadius: 12,
+            elevation: 3,
+          }}
+        >
+          <Text style={{ alignSelf: 'flex-start', fontSize: 15, fontWeight: '700', color: '#1E1448' }}>
+            Performance Radar
+          </Text>
           <RadarChart
             data={[
               { label: 'Attack', value: user.radar.attack },
@@ -50,27 +82,61 @@ export default function ProfileScreen() {
           />
         </View>
 
-        <View className="gap-2 px-5">
+        {/* Menu */}
+        <View style={{ gap: 8, paddingHorizontal: 20 }}>
           {menu.map((item) => (
             <Pressable
               key={item.label}
               onPress={() => router.push(item.href as never)}
-              className="flex-row items-center gap-3 rounded-2xl border border-border bg-bg-card p-4"
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 12,
+                borderRadius: 18,
+                backgroundColor: '#FFFFFF',
+                padding: 16,
+                shadowColor: '#7B4FD4',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.06,
+                shadowRadius: 8,
+                elevation: 2,
+              }}
             >
-              <Feather name={item.icon} size={18} color="#8FADFF" />
-              <Text className="flex-1 text-sm font-medium text-text">{item.label}</Text>
-              <Feather name="chevron-right" size={18} color="#6B7385" />
+              <View
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 18,
+                  backgroundColor: '#F0ECFF',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Feather name={item.icon} size={16} color="#7B4FD4" />
+              </View>
+              <Text style={{ flex: 1, fontSize: 14, fontWeight: '600', color: '#1E1448' }}>{item.label}</Text>
+              <Feather name="chevron-right" size={18} color="#C5B3FF" />
             </Pressable>
           ))}
+
+          {/* Log Out */}
           <Pressable
             onPress={() => {
               logout();
               router.replace('/(auth)/login');
             }}
-            className="flex-row items-center justify-center gap-2 rounded-2xl border border-danger/30 bg-danger/10 p-4"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              borderRadius: 18,
+              backgroundColor: '#FFF0F3',
+              padding: 16,
+            }}
           >
-            <Feather name="log-out" size={16} color="#FF5C6C" />
-            <Text className="text-sm font-semibold text-danger">Log Out</Text>
+            <Feather name="log-out" size={16} color="#D14D77" />
+            <Text style={{ fontSize: 14, fontWeight: '700', color: '#D14D77' }}>Log Out</Text>
           </Pressable>
         </View>
       </ScrollView>

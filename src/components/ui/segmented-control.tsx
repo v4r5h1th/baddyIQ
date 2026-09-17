@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn';
 import { Pressable, Text, View } from 'react-native';
 
 interface SegmentedControlProps<T extends string> {
@@ -8,9 +7,16 @@ interface SegmentedControlProps<T extends string> {
   className?: string;
 }
 
-export function SegmentedControl<T extends string>({ options, value, onChange, className }: SegmentedControlProps<T>) {
+export function SegmentedControl<T extends string>({ options, value, onChange }: SegmentedControlProps<T>) {
   return (
-    <View className={cn('flex-row rounded-2xl bg-bg-input p-1', className)}>
+    <View
+      style={{
+        flexDirection: 'row',
+        borderRadius: 20,
+        backgroundColor: '#E8E2FF',
+        padding: 4,
+      }}
+    >
       {options.map((option) => {
         const active = option.value === value;
         return (
@@ -19,9 +25,22 @@ export function SegmentedControl<T extends string>({ options, value, onChange, c
             onPress={() => onChange(option.value)}
             accessibilityRole="button"
             accessibilityState={{ selected: active }}
-            className={cn('flex-1 items-center justify-center rounded-xl py-2.5', active && 'bg-primary-500')}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 16,
+              paddingVertical: 8,
+              backgroundColor: active ? '#7B4FD4' : 'transparent',
+            }}
           >
-            <Text className={cn('text-sm font-semibold', active ? 'text-white' : 'text-text-secondary')}>
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: '700',
+                color: active ? '#FFFFFF' : '#9087B8',
+              }}
+            >
               {option.label}
             </Text>
           </Pressable>

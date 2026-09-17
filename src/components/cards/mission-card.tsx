@@ -3,20 +3,54 @@ import { Text, View } from 'react-native';
 
 export function MissionCard({ title, progress, reward }: { title: string; progress: number; reward?: string }) {
   return (
-    <View className="gap-3 rounded-3xl border border-primary-800 bg-primary-900/40 p-4">
-      <View className="flex-row items-center gap-2">
-        <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-500">
+    <View
+      style={{
+        gap: 12,
+        borderRadius: 24,
+        backgroundColor: '#FFFFFF',
+        padding: 18,
+        shadowColor: '#7B4FD4',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+        elevation: 3,
+      }}
+    >
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+        <View
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 17,
+            backgroundColor: '#7B4FD4',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Feather name="target" size={16} color="#fff" />
         </View>
-        <Text className="text-xs font-semibold uppercase tracking-wide text-primary-300">Current Mission</Text>
+        <Text style={{ fontSize: 11, fontWeight: '700', color: '#7B4FD4', letterSpacing: 0.8 }}>
+          CURRENT MISSION
+        </Text>
       </View>
-      <Text className="text-base font-semibold text-text">{title}</Text>
-      <View className="h-2 overflow-hidden rounded-full bg-bg-input">
-        <View style={{ width: `${progress}%` }} className="h-full rounded-full bg-primary-500" />
+      <Text style={{ fontSize: 14, fontWeight: '600', color: '#1E1448', lineHeight: 20 }}>{title}</Text>
+      <View
+        style={{
+          height: 6,
+          overflow: 'hidden',
+          borderRadius: 6,
+          backgroundColor: '#EDE8FF',
+        }}
+      >
+        <View
+          style={{ width: `${progress}%`, height: '100%', borderRadius: 6, backgroundColor: '#7B4FD4' }}
+        />
       </View>
-      <View className="flex-row items-center justify-between">
-        <Text className="text-xs text-text-secondary">{progress}% complete</Text>
-        {reward ? <Text className="text-xs font-medium text-accent">{reward}</Text> : null}
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: 11, color: '#9087B8' }}>{progress}% complete</Text>
+        {reward ? (
+          <Text style={{ fontSize: 11, fontWeight: '700', color: '#F06292' }}>{reward}</Text>
+        ) : null}
       </View>
     </View>
   );

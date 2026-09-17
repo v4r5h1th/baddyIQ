@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn';
 import { Feather } from '@expo/vector-icons';
 import { Pressable, TextInput, View } from 'react-native';
 
@@ -11,23 +10,37 @@ interface SearchBarProps {
   rightSlot?: React.ReactNode;
 }
 
-export function SearchBar({ value, onChangeText, placeholder = 'Search', onSubmit, className, rightSlot }: SearchBarProps) {
+export function SearchBar({ value, onChangeText, placeholder = 'Search', onSubmit, rightSlot }: SearchBarProps) {
   return (
-    <View className={cn('flex-row items-center rounded-2xl border border-border bg-bg-input px-4 py-3', className)}>
-      <Feather name="search" size={18} color="#9AA3B8" />
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 20,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        shadowColor: '#7B4FD4',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        elevation: 2,
+      }}
+    >
+      <Feather name="search" size={18} color="#C5B3FF" />
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#6B7385"
+        placeholderTextColor="#C5B3FF"
         onSubmitEditing={onSubmit}
         returnKeyType="search"
-        className="ml-2 flex-1 text-base text-text"
+        style={{ marginLeft: 10, flex: 1, fontSize: 14, color: '#1E1448' }}
         accessibilityLabel={placeholder}
       />
       {value.length > 0 ? (
         <Pressable onPress={() => onChangeText('')} accessibilityRole="button" accessibilityLabel="Clear search" hitSlop={8}>
-          <Feather name="x-circle" size={18} color="#6B7385" />
+          <Feather name="x-circle" size={18} color="#C5B3FF" />
         </Pressable>
       ) : null}
       {rightSlot}

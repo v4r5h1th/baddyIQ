@@ -6,43 +6,49 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // ── BaddyIQ Lavender/Purple Design System ──────────────────────
         bg: {
-          DEFAULT: '#0B0E14',
-          elevated: '#141926',
-          card: '#1B2130',
-          input: '#1E2536',
+          DEFAULT: '#F0ECFF',   // soft lavender background
+          elevated: '#E8E2FF',  // slightly deeper lavender
+          card: '#FFFFFF',      // white card surface
+          input: '#EDE8FF',     // input field background
         },
-        surface: '#1B2130',
+        surface: '#FFFFFF',
         border: {
-          DEFAULT: '#262E42',
-          light: '#333C54',
+          DEFAULT: '#D8CFFF',   // soft purple border
+          light: '#E5DFFF',     // lighter border
         },
         primary: {
-          DEFAULT: '#5B8CFF',
-          50: '#EEF3FF',
-          100: '#DCE6FF',
-          200: '#B9CDFF',
-          300: '#8FADFF',
-          400: '#6E97FF',
-          500: '#5B8CFF',
-          600: '#3D6BE8',
-          700: '#2E52B8',
-          800: '#213A87',
-          900: '#152556',
+          DEFAULT: '#7B4FD4',   // deep purple primary
+          50:  '#F5F0FF',
+          100: '#EDE8FF',
+          200: '#D8CFFF',
+          300: '#B9A5FF',
+          400: '#9975E8',
+          500: '#7B4FD4',       // main purple accent
+          600: '#6437BB',
+          700: '#4E2A99',
+          800: '#3A1F77',
+          900: '#281455',
         },
         accent: {
-          DEFAULT: '#20E3B2',
-          light: '#5CF3D2',
-          dark: '#0FAF8A',
+          DEFAULT: '#F06292',   // soft pink accent
+          light: '#F8A5C1',     // lighter pink
+          dark: '#D14D77',      // deeper pink
+        },
+        lavender: {
+          DEFAULT: '#C5B3FF',   // lavender highlight
+          light: '#DDD6FF',     // light lavender
+          deep: '#9F85F0',      // deeper lavender
         },
         warn: '#FFB020',
         danger: '#FF5C6C',
-        win: '#20E3B2',
-        loss: '#FF5C6C',
+        win: '#7B4FD4',         // use purple for wins
+        loss: '#F06292',        // use pink for losses
         text: {
-          DEFAULT: '#F4F6FB',
-          secondary: '#9AA3B8',
-          muted: '#6B7385',
+          DEFAULT: '#1E1448',   // dark navy/purple text
+          secondary: '#5C4F8A', // mid-purple secondary
+          muted: '#9087B8',     // muted purple-grey
         },
       },
       fontFamily: {
@@ -50,6 +56,7 @@ module.exports = {
       },
       borderRadius: {
         xl2: '28px',
+        xl3: '32px',
       },
     },
   },
