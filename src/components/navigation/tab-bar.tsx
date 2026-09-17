@@ -2,27 +2,28 @@ import type { BottomTabBarProps } from 'expo-router/tabs';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Path, Circle, G } from 'react-native-svg';
+import Svg, { Path, Circle } from 'react-native-svg';
 
-// Custom minimal SVG icons matching the reference design
-function HomeIcon({ active }: { active: boolean }) {
-  const color = active ? '#7B4FD4' : '#9087B8';
+// Custom icons matching the sleek palette
+function CoachIcon({ active }: { active: boolean }) {
+  const color = active ? '#6E32CC' : '#615092';
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M3 12L12 4L21 12V20C21 20.5523 20.5523 21 20 21H15V16H9V21H4C3.44772 21 3 20.5523 3 20V12Z"
+        d="M12 2C9 2 7 4.5 7 7.5C7 9.8 8.2 11.7 10 12.7L8.5 20H15.5L14 12.7C15.8 11.7 17 9.8 17 7.5C17 4.5 15 2 12 2Z"
+        fill={active ? color : 'none'}
         stroke={color}
         strokeWidth={1.8}
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="none"
       />
+      <Path d="M9.5 20H14.5M9 17.5H15" stroke={active ? '#FFFFFF' : color} strokeWidth={1.2} strokeLinecap="round" />
     </Svg>
   );
 }
 
 function MatchesIcon({ active }: { active: boolean }) {
-  const color = active ? '#7B4FD4' : '#9087B8';
+  const color = active ? '#6E32CC' : '#615092';
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
@@ -38,11 +39,27 @@ function MatchesIcon({ active }: { active: boolean }) {
 }
 
 function LeaderboardIcon({ active }: { active: boolean }) {
-  const color = active ? '#7B4FD4' : '#9087B8';
+  // Center elevated button icon
+  return (
+    <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M8 21H16M12 17V21M6 4H4C4 7 5 9 8 10.5C8 13.5 9.5 16 12 17C14.5 16 16 13.5 16 10.5C19 9 20 7 20 4H18M6 4H18M6 4C6 7 7 9 10 10"
+        stroke="#FFFFFF"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
+function HomeIcon({ active }: { active: boolean }) {
+  const color = active ? '#6E32CC' : '#615092';
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M8 17H5C4.44772 17 4 17.4477 4 18V20C4 20.5523 4.44772 21 5 21H8M8 17V21M8 17V11C8 10.4477 8.44772 10 9 10H15C15.5523 10 16 10.4477 16 11V17M8 21H16M16 17H19C19.5523 17 20 17.4477 20 18V20C20 20.5523 19.5523 21 19 21H16M16 17V21M12 3V7M12 7L9.5 4.5M12 7L14.5 4.5"
+        d="M3 12L12 4L21 12V20C21 20.5523 20.5523 21 20 21H15V16H9V21H4C3.44772 21 3 20.5523 3 20V12Z"
         stroke={color}
         strokeWidth={1.8}
         strokeLinecap="round"
@@ -53,31 +70,11 @@ function LeaderboardIcon({ active }: { active: boolean }) {
   );
 }
 
-function ShuttleIcon({ active }: { active: boolean }) {
-  // Badminton shuttlecock icon for the center active tab
-  return (
-    <Svg width={26} height={26} viewBox="0 0 24 24" fill="none">
-      <Path
-        d="M12 3C8.5 3 6 5.5 6 9C6 11.5 7.5 13.5 9.5 14.5L8 21H16L14.5 14.5C16.5 13.5 18 11.5 18 9C18 5.5 15.5 3 12 3Z"
-        fill="white"
-        stroke="white"
-        strokeWidth={0.5}
-      />
-      <Path d="M10 21H14M9 18H15" stroke="rgba(255,255,255,0.7)" strokeWidth={1.5} strokeLinecap="round" />
-    </Svg>
-  );
-}
-
 function ProfileIcon({ active }: { active: boolean }) {
-  const color = active ? '#7B4FD4' : '#9087B8';
+  const color = active ? '#6E32CC' : '#615092';
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-      <Path
-        d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
-        stroke={color}
-        strokeWidth={1.8}
-        fill="none"
-      />
+      <Circle cx={12} cy={8} r={4} stroke={color} strokeWidth={1.8} fill="none" />
       <Path
         d="M4 20C4 17.2386 7.58172 15 12 15C16.4183 15 20 17.2386 20 20"
         stroke={color}
@@ -90,54 +87,60 @@ function ProfileIcon({ active }: { active: boolean }) {
 }
 
 const tabIcons: Record<string, (props: { active: boolean }) => React.JSX.Element> = {
-  index: HomeIcon,
+  index: CoachIcon,
   matches: MatchesIcon,
   leaderboard: LeaderboardIcon,
-  coach: ShuttleIcon,
+  home: HomeIcon,
   profile: ProfileIcon,
 };
 
 const labels: Record<string, string> = {
-  index: 'Home',
+  index: 'Coach',
   matches: 'Matches',
   leaderboard: 'Ranks',
-  coach: 'Coach',
+  home: 'Home',
   profile: 'Profile',
 };
 
 export function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
 
+  // Filter out any hidden routes (e.g. coach alias)
+  const visibleRoutes = state.routes.filter((r) => r.name !== 'coach');
+
   return (
     <View
       style={{
-        paddingBottom: insets.bottom || 8,
+        paddingBottom: insets.bottom || 10,
         paddingHorizontal: 16,
         paddingTop: 8,
         backgroundColor: 'transparent',
       }}
     >
-      {/* Pill container */}
+      {/* Pill container with new secondary surface #F8E9FD */}
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: '#EDE8FF',
+          backgroundColor: '#F8E9FD',
           borderRadius: 40,
-          paddingVertical: 8,
+          paddingVertical: 6,
           paddingHorizontal: 8,
-          shadowColor: '#7B4FD4',
+          borderWidth: 1,
+          borderColor: '#EAD0F5',
+          shadowColor: '#6E32CC',
           shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.15,
+          shadowOpacity: 0.12,
           shadowRadius: 16,
-          elevation: 8,
+          elevation: 6,
         }}
       >
-        {state.routes.map((route, index) => {
-          const focused = state.index === index;
-          const Icon = tabIcons[route.name] ?? HomeIcon;
+        {visibleRoutes.map((route) => {
+          const routeIndex = state.routes.findIndex((r) => r.key === route.key);
+          const focused = state.index === routeIndex;
+          const Icon = tabIcons[route.name] ?? CoachIcon;
           const label = labels[route.name] ?? route.name;
-          const isCenter = route.name === 'coach';
+          const isCenter = route.name === 'leaderboard';
 
           return (
             <Pressable
@@ -152,38 +155,40 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             >
               {isCenter ? (
-                // Center elevated button with gradient
+                // Center elevated button with primary purple gradient #8B52E3 -> #6E32CC
                 <View
                   style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: 26,
+                    width: 50,
+                    height: 50,
+                    borderRadius: 25,
                     overflow: 'hidden',
                     marginTop: -14,
-                    shadowColor: '#7B4FD4',
+                    shadowColor: '#6E32CC',
                     shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.4,
-                    shadowRadius: 12,
-                    elevation: 10,
+                    shadowOpacity: 0.35,
+                    shadowRadius: 10,
+                    elevation: 8,
                   }}
                 >
                   <LinearGradient
-                    colors={['#9F85F0', '#7B4FD4']}
-                    style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 26 }}
+                    colors={['#8B52E3', '#6E32CC']}
+                    style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 25 }}
                   >
                     <Icon active={focused} />
                   </LinearGradient>
                 </View>
               ) : focused ? (
-                // Active non-center tab: soft purple pill highlight
+                // Active tab: soft accent highlight
                 <View
                   style={{
-                    backgroundColor: '#DDD6FF',
-                    borderRadius: 24,
-                    paddingHorizontal: 14,
-                    paddingVertical: 8,
+                    backgroundColor: '#F9EDFD',
+                    borderRadius: 22,
+                    paddingHorizontal: 12,
+                    paddingVertical: 7,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    borderWidth: 1,
+                    borderColor: '#EAD0F5',
                   }}
                 >
                   <Icon active={focused} />
@@ -192,8 +197,8 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
                 // Inactive tab
                 <View
                   style={{
-                    paddingHorizontal: 14,
-                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                    paddingVertical: 7,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}

@@ -12,36 +12,36 @@ export function SegmentedControl<T extends string>({ options, value, onChange }:
     <View
       style={{
         flexDirection: 'row',
-        borderRadius: 20,
-        backgroundColor: '#E8E2FF',
+        borderRadius: 16,
+        backgroundColor: '#F8E9FD',
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
         padding: 4,
+        gap: 4,
       }}
     >
-      {options.map((option) => {
-        const active = option.value === value;
+      {options.map((opt) => {
+        const selected = opt.value === value;
         return (
           <Pressable
-            key={option.value}
-            onPress={() => onChange(option.value)}
-            accessibilityRole="button"
-            accessibilityState={{ selected: active }}
+            key={opt.value}
+            onPress={() => onChange(opt.value)}
             style={{
               flex: 1,
               alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 16,
+              borderRadius: 12,
               paddingVertical: 8,
-              backgroundColor: active ? '#7B4FD4' : 'transparent',
+              backgroundColor: selected ? '#6E32CC' : 'transparent',
             }}
           >
             <Text
               style={{
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: '700',
-                color: active ? '#FFFFFF' : '#9087B8',
+                color: selected ? '#FFFFFF' : '#615092',
               }}
             >
-              {option.label}
+              {opt.label}
             </Text>
           </Pressable>
         );

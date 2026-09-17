@@ -8,9 +8,16 @@ export default function CameraPermissionScreen() {
 
   async function handleAllow() {
     setIsLoading(true);
-    await Camera.requestCameraPermissionsAsync();
-    setIsLoading(false);
-    router.push('/(permissions)/notifications');
+    try {
+      if (Camera && typeof Camera.requestCameraPermissionsAsync === 'function') {
+        await Camera.requestCameraPermissionsAsync();
+      }
+    } catch (e) {
+      console.warn('Camera permission request error:', e);
+    } finally {
+      setIsLoading(false);
+      router.push('/(permissions)/notifications');
+    }
   }
 
   return (

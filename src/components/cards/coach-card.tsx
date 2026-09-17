@@ -8,41 +8,40 @@ export function CoachCard({ summary, onPress }: { summary: string; onPress?: () 
       style={{
         gap: 12,
         borderRadius: 24,
-        backgroundColor: '#FFFFFF',
-        padding: 18,
-        shadowColor: '#7B4FD4',
-        shadowOffset: { width: 0, height: 4 },
+        backgroundColor: '#F9EDFD',
+        padding: 20,
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
+        shadowColor: '#6E32CC',
+        shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.1,
-        shadowRadius: 14,
+        shadowRadius: 16,
         elevation: 4,
       }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        <View
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 17,
-            backgroundColor: '#F0ECFF',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 14 }}>✦</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              backgroundColor: '#F8E9FD',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Feather name="zap" size={16} color="#6E32CC" />
+          </View>
+          <Text style={{ fontSize: 13, fontWeight: '700', color: '#6E32CC', letterSpacing: 0.5 }}>
+            AI COACH INSIGHT
+          </Text>
         </View>
-        <Text style={{ fontSize: 11, fontWeight: '700', color: '#7B4FD4', letterSpacing: 0.8 }}>
-          AI COACH SAYS
-        </Text>
+        <Feather name="arrow-right" size={18} color="#6E32CC" />
       </View>
-      <Text numberOfLines={4} style={{ fontSize: 14, lineHeight: 22, color: '#5C4F8A', fontWeight: '500' }}>
+      <Text style={{ fontSize: 14, color: '#0A0841', lineHeight: 22, fontWeight: '500' }}>
         {summary}
       </Text>
-      {onPress ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-          <Text style={{ fontSize: 13, fontWeight: '700', color: '#7B4FD4' }}>Ask Coach</Text>
-          <Feather name="arrow-right" size={14} color="#7B4FD4" />
-        </View>
-      ) : null}
     </Pressable>
   );
 }

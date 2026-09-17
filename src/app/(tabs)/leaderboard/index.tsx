@@ -31,16 +31,29 @@ export default function LeaderboardScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F0ECFF' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
       <View style={{ gap: 12, paddingHorizontal: 20, paddingTop: 8 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ fontSize: 26, fontWeight: '800', color: '#1E1448', letterSpacing: -0.5 }}>Leaderboard</Text>
+          <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>Leaderboard</Text>
           <Pressable
             onPress={() => router.push('/(tabs)/leaderboard/compare')}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: 20, backgroundColor: '#FFFFFF', paddingHorizontal: 14, paddingVertical: 8, shadowColor: '#7B4FD4', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 2 }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 6,
+              borderRadius: 20,
+              backgroundColor: '#F9EDFD',
+              paddingHorizontal: 14,
+              paddingVertical: 8,
+              shadowColor: '#6E32CC',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 2,
+            }}
           >
-            <Feather name="users" size={14} color="#7B4FD4" />
-            <Text style={{ fontSize: 12, fontWeight: '700', color: '#7B4FD4' }}>Compare</Text>
+            <Feather name="users" size={14} color="#6E32CC" />
+            <Text style={{ fontSize: 12, fontWeight: '700', color: '#6E32CC' }}>Compare</Text>
           </Pressable>
         </View>
         <SegmentedControl options={scopes} value={scope} onChange={setScope} />

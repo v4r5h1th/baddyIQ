@@ -1,5 +1,6 @@
 import { StatisticCard } from '@/components/cards';
 import { RadarChart } from '@/components/charts';
+import { currentUser } from '@/data/mock/current-user';
 import { useAuthStore } from '@/store/auth.store';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -16,14 +17,14 @@ const menu: { label: string; icon: keyof typeof Feather.glyphMap; href: string }
 ];
 
 export default function ProfileScreen() {
-  const { user, logout } = useAuthStore();
-  if (!user) return null;
+  const { user: authUser, logout } = useAuthStore();
+  const user = authUser ?? currentUser;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F0ECFF' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
       <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 40 }}>
         {/* Banner */}
-        <View style={{ height: 140, width: '100%' }}>
+        <View style={{ height: 140, width: '100%', backgroundColor: '#F8E9FD' }}>
           <Image source={{ uri: user.bannerUrl }} style={{ height: 140, width: '100%' }} />
         </View>
 
@@ -36,11 +37,11 @@ export default function ProfileScreen() {
               height: 96,
               borderRadius: 48,
               borderWidth: 4,
-              borderColor: '#F0ECFF',
+              borderColor: '#F5DDFD',
             }}
           />
-          <Text style={{ fontSize: 22, fontWeight: '800', color: '#1E1448', marginTop: 4 }}>{user.name}</Text>
-          <Text style={{ fontSize: 13, color: '#9087B8' }}>
+          <Text style={{ fontSize: 22, fontWeight: '800', color: '#0A0841', marginTop: 4 }}>{user.name}</Text>
+          <Text style={{ fontSize: 13, color: '#615092' }}>
             {user.countryFlag} {user.country} · Rank #{user.globalRank}
           </Text>
         </View>
@@ -58,17 +59,17 @@ export default function ProfileScreen() {
             alignItems: 'center',
             gap: 12,
             borderRadius: 24,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#F9EDFD',
             padding: 18,
             marginHorizontal: 20,
-            shadowColor: '#7B4FD4',
+            shadowColor: '#6E32CC',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.1,
             shadowRadius: 12,
             elevation: 3,
           }}
         >
-          <Text style={{ alignSelf: 'flex-start', fontSize: 15, fontWeight: '700', color: '#1E1448' }}>
+          <Text style={{ alignSelf: 'flex-start', fontSize: 15, fontWeight: '700', color: '#0A0841' }}>
             Performance Radar
           </Text>
           <RadarChart
@@ -93,9 +94,9 @@ export default function ProfileScreen() {
                 alignItems: 'center',
                 gap: 12,
                 borderRadius: 18,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: '#F9EDFD',
                 padding: 16,
-                shadowColor: '#7B4FD4',
+                shadowColor: '#6E32CC',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.06,
                 shadowRadius: 8,
@@ -107,15 +108,15 @@ export default function ProfileScreen() {
                   width: 36,
                   height: 36,
                   borderRadius: 18,
-                  backgroundColor: '#F0ECFF',
+                  backgroundColor: '#F8E9FD',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Feather name={item.icon} size={16} color="#7B4FD4" />
+                <Feather name={item.icon} size={16} color="#6E32CC" />
               </View>
-              <Text style={{ flex: 1, fontSize: 14, fontWeight: '600', color: '#1E1448' }}>{item.label}</Text>
-              <Feather name="chevron-right" size={18} color="#C5B3FF" />
+              <Text style={{ flex: 1, fontSize: 14, fontWeight: '600', color: '#0A0841' }}>{item.label}</Text>
+              <Feather name="chevron-right" size={18} color="#D46CC7" />
             </Pressable>
           ))}
 
@@ -131,12 +132,13 @@ export default function ProfileScreen() {
               justifyContent: 'center',
               gap: 8,
               borderRadius: 18,
-              backgroundColor: '#FFF0F3',
+              backgroundColor: '#FAC0F6',
               padding: 16,
+              marginTop: 4,
             }}
           >
-            <Feather name="log-out" size={16} color="#D14D77" />
-            <Text style={{ fontSize: 14, fontWeight: '700', color: '#D14D77' }}>Log Out</Text>
+            <Feather name="log-out" size={16} color="#6E32CC" />
+            <Text style={{ fontSize: 14, fontWeight: '700', color: '#6E32CC' }}>Log Out</Text>
           </Pressable>
         </View>
       </ScrollView>

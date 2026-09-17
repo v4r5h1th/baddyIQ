@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store/auth.store';
 import { router } from 'expo-router';
 
 export default function WelcomeScreen() {
-  const completeOnboarding = useAuthStore((s) => s.completeOnboarding);
+  const { completeOnboarding, skipToApp } = useAuthStore();
   return (
     <OnboardingScreen
       step={0}
@@ -14,7 +14,8 @@ export default function WelcomeScreen() {
       onNext={() => router.push('/(onboarding)/track')}
       onSkip={() => {
         completeOnboarding();
-        router.replace('/(auth)/login');
+        skipToApp();
+        router.replace('/(tabs)');
       }}
     />
   );

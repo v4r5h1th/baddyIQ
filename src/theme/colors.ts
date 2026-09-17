@@ -1,47 +1,49 @@
-// Mirrors tailwind.config.js palette for use in SVG / chart code where className isn't available.
+// Exact color palette as requested by user
 export const palette = {
-  // Backgrounds
-  bg: '#F0ECFF',
-  bgElevated: '#E8E2FF',
-  card: '#FFFFFF',
-  input: '#EDE8FF',
+  // Backgrounds & Surfaces
+  bg: '#F5DDFD',              // Main background
+  card: '#F9EDFD',            // Surface / Card
+  surfaceSecondary: '#F8E9FD',// Secondary Surface
+  input: '#F8E9FD',           // Input background
+  bgElevated: '#F8E9FD',
+
   // Borders
-  border: '#D8CFFF',
-  borderLight: '#E5DFFF',
-  // Primary purple
-  primary: '#7B4FD4',
-  primaryLight: '#9F85F0',
-  primaryDark: '#6437BB',
-  // Pink accent
-  accent: '#F06292',
-  accentLight: '#F8A5C1',
-  accentDark: '#D14D77',
-  // Lavender
-  lavender: '#C5B3FF',
-  lavenderLight: '#DDD6FF',
-  lavenderDeep: '#9F85F0',
+  border: '#EAD0F5',
+  borderLight: '#F3E2FB',
+
+  // Primary Purple
+  primary: '#6E32CC',         // Primary Purple
+  primaryLight: '#8B52E3',
+  primaryDark: '#5621A8',
+
+  // Accent Pink
+  accent: '#FAC0F6',          // Accent Pink
+  accentLight: '#FCE0FB',
+  accentDark: '#D46CC7',
+
   // Status
-  warn: '#FFB020',
-  danger: '#FF5C6C',
-  win: '#7B4FD4',
-  loss: '#F06292',
-  // Text (dark navy/purple)
-  text: '#1E1448',
-  textSecondary: '#5C4F8A',
-  textMuted: '#9087B8',
+  warn: '#FFA726',
+  danger: '#EF5350',
+  win: '#6E32CC',
+  loss: '#D46CC7',
+
+  // Typography
+  text: '#0A0841',            // Primary Text
+  textSecondary: '#615092',   // Secondary Text
+  textMuted: '#8F7FB8',
 } as const;
 
 export const chartSeries = [
-  palette.primary,       // deep purple
-  palette.accent,        // pink
-  palette.lavender,      // lavender
-  palette.lavenderDeep,  // deeper lavender
-  palette.accentLight,   // light pink
+  palette.primary,
+  palette.accentDark,
+  palette.primaryLight,
+  palette.accent,
+  '#A87FE8',
 ];
 
 export const performanceColors: Record<'attack' | 'defence' | 'movement' | 'recovery', string> = {
-  attack: '#7B4FD4',   // purple
-  defence: '#F06292',  // pink
-  movement: '#9F85F0', // lavender
-  recovery: '#C5B3FF', // light lavender
+  attack: '#6E32CC',
+  defence: '#D46CC7',
+  movement: '#8B52E3',
+  recovery: '#FAC0F6',
 };

@@ -33,9 +33,9 @@ export default function MatchesScreen() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F0ECFF' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
       <View style={{ gap: 12, paddingHorizontal: 20, paddingTop: 8 }}>
-        <Text style={{ fontSize: 26, fontWeight: '800', color: '#1E1448', letterSpacing: -0.5 }}>Match History</Text>
+        <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>Match History</Text>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} placeholder="Search opponents..." />
         <SegmentedControl options={filters} value={filter} onChange={setFilter} />
       </View>

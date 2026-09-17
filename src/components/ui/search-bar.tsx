@@ -7,43 +7,39 @@ interface SearchBarProps {
   placeholder?: string;
   onSubmit?: () => void;
   className?: string;
-  rightSlot?: React.ReactNode;
 }
 
-export function SearchBar({ value, onChangeText, placeholder = 'Search', onSubmit, rightSlot }: SearchBarProps) {
+export function SearchBar({ value, onChangeText, placeholder = 'Search...', onSubmit }: SearchBarProps) {
   return (
     <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 20,
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        shadowColor: '#7B4FD4',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-        elevation: 2,
+        gap: 10,
+        borderRadius: 18,
+        backgroundColor: '#F9EDFD',
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
+        paddingHorizontal: 14,
+        height: 48,
       }}
     >
-      <Feather name="search" size={18} color="#C5B3FF" />
+      <Feather name="search" size={18} color="#6E32CC" />
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#C5B3FF"
-        onSubmitEditing={onSubmit}
+        placeholderTextColor="#8F7FB8"
         returnKeyType="search"
-        style={{ marginLeft: 10, flex: 1, fontSize: 14, color: '#1E1448' }}
+        onSubmitEditing={onSubmit}
+        style={{ flex: 1, fontSize: 14, color: '#0A0841' }}
         accessibilityLabel={placeholder}
       />
-      {value.length > 0 ? (
-        <Pressable onPress={() => onChangeText('')} accessibilityRole="button" accessibilityLabel="Clear search" hitSlop={8}>
-          <Feather name="x-circle" size={18} color="#C5B3FF" />
+      {value ? (
+        <Pressable onPress={() => onChangeText('')} hitSlop={8} accessibilityLabel="Clear search">
+          <Feather name="x" size={16} color="#8F7FB8" />
         </Pressable>
       ) : null}
-      {rightSlot}
     </View>
   );
 }

@@ -10,18 +10,16 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, actionLabel, onActionPress, subtitle }: SectionHeaderProps) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-      <View>
-        <Text style={{ fontSize: 17, fontWeight: '800', color: '#1E1448', letterSpacing: -0.3 }}>{title}</Text>
-        {subtitle ? (
-          <Text style={{ marginTop: 2, fontSize: 12, color: '#9087B8' }}>{subtitle}</Text>
+    <View style={{ gap: 2 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: 17, fontWeight: '700', color: '#0A0841', letterSpacing: -0.3 }}>{title}</Text>
+        {actionLabel && onActionPress ? (
+          <Pressable onPress={onActionPress} hitSlop={8}>
+            <Text style={{ fontSize: 13, fontWeight: '700', color: '#6E32CC' }}>{actionLabel}</Text>
+          </Pressable>
         ) : null}
       </View>
-      {actionLabel ? (
-        <Pressable onPress={onActionPress} accessibilityRole="button" hitSlop={8}>
-          <Text style={{ fontSize: 13, fontWeight: '700', color: '#7B4FD4' }}>{actionLabel}</Text>
-        </Pressable>
-      ) : null}
+      {subtitle ? <Text style={{ fontSize: 12, color: '#615092' }}>{subtitle}</Text> : null}
     </View>
   );
 }

@@ -8,9 +8,16 @@ export default function NotificationsPermissionScreen() {
 
   async function handleAllow() {
     setIsLoading(true);
-    await Notifications.requestPermissionsAsync();
-    setIsLoading(false);
-    router.push('/(permissions)/storage');
+    try {
+      if (Notifications && typeof Notifications.requestPermissionsAsync === 'function') {
+        await Notifications.requestPermissionsAsync();
+      }
+    } catch (e) {
+      console.warn('Notifications permission request error:', e);
+    } finally {
+      setIsLoading(false);
+      router.push('/(permissions)/storage');
+    }
   }
 
   return (

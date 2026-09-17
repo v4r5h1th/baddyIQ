@@ -15,9 +15,16 @@ export default function StoragePermissionScreen() {
 
   async function handleAllow() {
     setIsLoading(true);
-    await ImagePicker.requestMediaLibraryPermissionsAsync();
-    setIsLoading(false);
-    finish();
+    try {
+      if (ImagePicker && typeof ImagePicker.requestMediaLibraryPermissionsAsync === 'function') {
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      }
+    } catch (e) {
+      console.warn('Media library permission error:', e);
+    } finally {
+      setIsLoading(false);
+      finish();
+    }
   }
 
   return (

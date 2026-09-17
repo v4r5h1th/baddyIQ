@@ -7,50 +7,44 @@ export function MissionCard({ title, progress, reward }: { title: string; progre
       style={{
         gap: 12,
         borderRadius: 24,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F9EDFD',
         padding: 18,
-        shadowColor: '#7B4FD4',
+        borderWidth: 1,
+        borderColor: '#EAD0F5',
+        shadowColor: '#6E32CC',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.08,
         shadowRadius: 12,
         elevation: 3,
       }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <View
           style={{
-            width: 34,
-            height: 34,
-            borderRadius: 17,
-            backgroundColor: '#7B4FD4',
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
+            gap: 6,
+            backgroundColor: '#F8E9FD',
+            borderRadius: 12,
+            paddingHorizontal: 10,
+            paddingVertical: 4,
           }}
         >
-          <Feather name="target" size={16} color="#fff" />
+          <Feather name="zap" size={12} color="#6E32CC" />
+          <Text style={{ fontSize: 11, fontWeight: '700', color: '#6E32CC', letterSpacing: 0.5 }}>WEEKLY MISSION</Text>
         </View>
-        <Text style={{ fontSize: 11, fontWeight: '700', color: '#7B4FD4', letterSpacing: 0.8 }}>
-          CURRENT MISSION
-        </Text>
-      </View>
-      <Text style={{ fontSize: 14, fontWeight: '600', color: '#1E1448', lineHeight: 20 }}>{title}</Text>
-      <View
-        style={{
-          height: 6,
-          overflow: 'hidden',
-          borderRadius: 6,
-          backgroundColor: '#EDE8FF',
-        }}
-      >
-        <View
-          style={{ width: `${progress}%`, height: '100%', borderRadius: 6, backgroundColor: '#7B4FD4' }}
-        />
-      </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 11, color: '#9087B8' }}>{progress}% complete</Text>
         {reward ? (
-          <Text style={{ fontSize: 11, fontWeight: '700', color: '#F06292' }}>{reward}</Text>
+          <View style={{ backgroundColor: '#FAC0F6', borderRadius: 12, paddingHorizontal: 8, paddingVertical: 3 }}>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: '#6E32CC' }}>{reward}</Text>
+          </View>
         ) : null}
+      </View>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: '#0A0841', lineHeight: 20 }}>{title}</Text>
+      <View style={{ gap: 6 }}>
+        <View style={{ height: 7, borderRadius: 4, backgroundColor: '#F8E9FD', overflow: 'hidden' }}>
+          <View style={{ width: `${progress}%`, height: '100%', borderRadius: 4, backgroundColor: '#6E32CC' }} />
+        </View>
+        <Text style={{ fontSize: 11, color: '#615092', textAlign: 'right' }}>{progress}% completed</Text>
       </View>
     </View>
   );
