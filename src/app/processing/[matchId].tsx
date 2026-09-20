@@ -2,6 +2,8 @@ import { ProgressRing } from '@/components/ui/progress-ring';
 import { createNewMatch } from '@/data/mock/matches';
 import { useMatchesStore } from '@/store/matches.store';
 import { processingStages, useRecordStore } from '@/store/record.store';
+import { useRecordFlowStore } from '@/store/record-flow.store';
+import { useTabNavigationStore } from '@/store/tab-navigation.store';
 import { cn } from '@/utils/cn';
 import { Feather } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -24,7 +26,13 @@ export default function ProcessingScreen() {
           const match = createNewMatch(matchId ?? 'match_new');
           addMatch(match);
           reset();
-          setTimeout(() => router.replace(`/matches/${match.id}/summary`), 500);
+          useRecordFlowStore.getState().resetFlow();
+
+          setTimeout(() => {
+            // Navigate cleanly back to Match History tab (Tab 1)
+            useTabNavigationStore.getState().goToTab('matches');
+            router.replace('/(tabs)');
+          }, 600);
           return i;
         }
         return next;
@@ -38,8 +46,8 @@ export default function ProcessingScreen() {
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-8 bg-bg px-8">
-      <ProgressRing progress={progress} size={140} strokeWidth={10} color="#5B8CFF">
-        <Feather name="cpu" size={36} color="#5B8CFF" />
+      <ProgressRing progress={progress} size={140} strokeWidth={10} color="#FF914D">
+        <Feather name="cpu" size={36} color="#FF914D" />
       </ProgressRing>
       <View className="items-center gap-2">
         <Text className="text-xl font-bold text-text">Analyzing Your Match</Text>
@@ -51,7 +59,7 @@ export default function ProcessingScreen() {
             <Feather
               name={i < processingStageIndex ? 'check-circle' : i === processingStageIndex ? 'loader' : 'circle'}
               size={16}
-              color={i <= processingStageIndex ? '#20E3B2' : '#333C54'}
+              color={i <= processingStageIndex ? '#FF914D' : '#333C54'}
             />
             <Text className={cn('text-xs', i <= processingStageIndex ? 'text-text' : 'text-text-muted')}>{stage.label}</Text>
           </Animated.View>

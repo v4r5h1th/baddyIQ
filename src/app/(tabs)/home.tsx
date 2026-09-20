@@ -5,6 +5,7 @@ import { useMatchesStore } from '@/store/matches.store';
 import { useNotificationsStore } from '@/store/notifications.store';
 import { formatCompactNumber, formatSigned } from '@/utils/format';
 import { useTabNavigationStore } from '@/store/tab-navigation.store';
+import { useRecordFlowStore } from '@/store/record-flow.store';
 import { useAppTheme } from '@/context/theme-context';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -82,7 +83,10 @@ export default function HomeScreen() {
 
         {/* ── Record a Match CTA ──────────────────────────────────────── */}
         <Pressable
-          onPress={() => router.push('/record')}
+          onPress={() => {
+            useRecordFlowStore.getState().goToStep(1);
+            useTabNavigationStore.getState().goToTab('record');
+          }}
           style={{ borderRadius: 24, overflow: 'hidden' }}
         >
           <LinearGradient

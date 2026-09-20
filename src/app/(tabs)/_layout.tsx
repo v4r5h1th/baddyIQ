@@ -6,19 +6,20 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { Slot, useSegments } from 'expo-router';
+import { Slot, useSegments, router } from 'expo-router';
 import { TabBar } from '@/components/navigation/tab-bar';
 import { useTabNavigationStore } from '@/store/tab-navigation.store';
 import { useAppTheme } from '@/context/theme-context';
+import { useRecordFlowStore } from '@/store/record-flow.store';
 import CoachScreen from './index';
 import MatchesScreen from './matches/index';
+import RecordScreen from './record';
 import LeaderboardScreen from './leaderboard/index';
-import HomeScreen from './home';
 import ProfileScreen from './profile/index';
 
 export default function TabsLayout() {
   const segments = useSegments();
-  const isSubroute = segments.length > 2; // e.g. ['(tabs)', 'leaderboard', 'compare']
+  const isSubroute = segments.length > 2; // e.g. ['(tabs)', 'matches', 'm_123']
   const theme = useAppTheme();
 
   const { width: SCREEN_WIDTH } = useWindowDimensions();
@@ -48,18 +49,45 @@ export default function TabsLayout() {
   };
 
   const handleTabPress = (index: number) => {
-    useTabNavigationStore.getState().goToTab(index);
+    if (index === 2) {
+      // 3rd Tab: Record match flow begins from Step 1 (Allow Location)
+      useRecordFlowStore.getState().goToStep(1);
+    }
+
+    if (isSubroute) {
+      // If currently on a subroute (like match details), navigate back to tabs root
+      router.replace('/(tabs)');
+      setTimeout(() => {
+        useTabNavigationStore.getState().goToTab(index);
+      }, 50);
+    } else {
+      useTabNavigationStore.getState().goToTab(index);
+    }
   };
 
-  // If visiting a nested modal or subroute (like compare or edit), render Slot
+  // If visiting a nested modal or subroute, render the Slot + Floating Tab Bar
   if (isSubroute) {
-    return <Slot />;
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.background }}>
+        <View style={{ flex: 1 }}>
+          <Slot />
+        </View>
+        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 100 }}>
+          <TabBar activeIndex={activeIndex} onTabPress={handleTabPress} />
+        </View>
+      </View>
+    );
   }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       {/* ─────────────────────────────────────────────────────────────
           INSTAGRAM-STYLE HORIZONTAL SWIPEABLE PAGER (5 TABS)
+          Tab 0: Coach
+          Tab 1: Matches
+          Tab 2: Record Flow (Center)
+          Tab 3: Leaderboard (4th Tab)
+          Tab 4: Profile
       ───────────────────────────────────────────────────────────── */}
       <ScrollView
         ref={horizontalScrollRef}
@@ -82,10 +110,10 @@ export default function TabsLayout() {
           <MatchesScreen />
         </View>
         <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
-          <LeaderboardScreen />
+          <RecordScreen />
         </View>
         <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
-          <HomeScreen />
+          <LeaderboardScreen />
         </View>
         <View style={{ width: SCREEN_WIDTH, flex: 1 }}>
           <ProfileScreen />
