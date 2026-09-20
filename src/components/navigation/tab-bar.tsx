@@ -3,6 +3,7 @@ import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle } from 'react-native-svg';
+import { TAB_ROUTES, TabName } from '@/store/tab-navigation.store';
 
 // Custom icons matching the sleek palette
 function CoachIcon({ active }: { active: boolean }) {
@@ -39,7 +40,6 @@ function MatchesIcon({ active }: { active: boolean }) {
 }
 
 function LeaderboardIcon({ active }: { active: boolean }) {
-  // Center elevated button icon
   return (
     <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
       <Path
@@ -94,19 +94,34 @@ const tabIcons: Record<string, (props: { active: boolean }) => React.JSX.Element
   profile: ProfileIcon,
 };
 
-const labels: Record<string, string> = {
-  index: 'Coach',
-  matches: 'Matches',
-  leaderboard: 'Ranks',
-  home: 'Home',
-  profile: 'Profile',
-};
+export interface CustomTabBarProps {
+  activeIndex?: number;
+  onTabPress?: (index: number) => void;
+  state?: BottomTabBarProps['state'];
+  navigation?: BottomTabBarProps['navigation'];
+}
 
-export function TabBar({ state, navigation }: BottomTabBarProps) {
+export function TabBar(props: CustomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const { state, navigation, activeIndex = 0, onTabPress } = props;
 
-  // Filter out any hidden routes (e.g. coach alias)
-  const visibleRoutes = state.routes.filter((r) => r.name !== 'coach');
+  const isNavigationMode = Boolean(state && navigation);
+
+  const routes = isNavigationMode
+    ? state!.routes.filter((r) => r.name !== 'coach').map((r, i) => ({
+        key: r.key,
+        name: r.name as TabName,
+        label: TAB_ROUTES.find((t) => t.name === r.name)?.label ?? r.name,
+        index: i,
+      }))
+    : TAB_ROUTES.map((r) => ({
+        key: r.name,
+        name: r.name,
+        label: r.label,
+        index: r.index,
+      }));
+
+  const currentIndex = isNavigationMode ? state!.index : activeIndex;
 
   return (
     <View
@@ -117,7 +132,7 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
         backgroundColor: 'transparent',
       }}
     >
-      {/* Pill container with new secondary surface #F8E9FD */}
+      {/* Pill container with secondary surface #F8E9FD */}
       <View
         style={{
           flexDirection: 'row',
@@ -135,23 +150,27 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
           elevation: 6,
         }}
       >
-        {visibleRoutes.map((route) => {
-          const routeIndex = state.routes.findIndex((r) => r.key === route.key);
-          const focused = state.index === routeIndex;
+        {routes.map((route, i) => {
+          const focused = currentIndex === i;
           const Icon = tabIcons[route.name] ?? CoachIcon;
-          const label = labels[route.name] ?? route.name;
           const isCenter = route.name === 'leaderboard';
+
+          const handlePress = () => {
+            if (isNavigationMode && navigation && state) {
+              const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+              if (!focused && !event.defaultPrevented) navigation.navigate(route.name);
+            } else if (onTabPress) {
+              onTabPress(i);
+            }
+          };
 
           return (
             <Pressable
               key={route.key}
               accessibilityRole="button"
               accessibilityState={{ selected: focused }}
-              accessibilityLabel={label}
-              onPress={() => {
-                const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-                if (!focused && !event.defaultPrevented) navigation.navigate(route.name);
-              }}
+              accessibilityLabel={route.label}
+              onPress={handlePress}
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             >
               {isCenter ? (

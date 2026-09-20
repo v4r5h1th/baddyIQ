@@ -22,7 +22,7 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
-      <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 40 }}>
+      <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 100 }}>
         {/* Banner */}
         <View style={{ height: 140, width: '100%', backgroundColor: '#F8E9FD' }}>
           <Image source={{ uri: user.bannerUrl }} style={{ height: 140, width: '100%' }} />

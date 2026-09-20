@@ -27,6 +27,7 @@
  *   Primary Text:      #0A0841
  *   Secondary Text:    #615092
  */
+import { BrandHeader, BRAND_HEADER_HEIGHT } from '@/components/navigation/brand-header';
 import { useAuthStore } from '@/store/auth.store';
 import { useMatchesStore } from '@/store/matches.store';
 import { formatDate } from '@/utils/format';
@@ -42,13 +43,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Svg, { Circle, Line, Path, Polyline } from 'react-native-svg';
+import Svg, { Circle, Line, Path, Polyline, Rect } from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 // ─── Header & Viewport Constants ─────────────────────────────────────────────
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = BRAND_HEADER_HEIGHT;
 const BOTTOM_NAV_PADDING = 80;
 const SECTION_HEIGHT = Math.max(560, SCREEN_HEIGHT - HEADER_HEIGHT - BOTTOM_NAV_PADDING);
 
@@ -600,6 +601,144 @@ function AnimatedShotBar({
   );
 }
 
+// ─── Infographic 1: Court Dominance & Zone Control ───────────────────────────
+function CourtControlInfographic({
+  frontPct = 84,
+  rearPct = 76,
+}: {
+  frontPct?: number;
+  rearPct?: number;
+}) {
+  return (
+    <View style={{ gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: 9, color: '#6E32CC', fontWeight: '800', letterSpacing: 0.6 }}>
+          ✦ COURT CONTROL
+        </Text>
+        <View
+          style={{
+            backgroundColor: '#F8E9FD',
+            borderRadius: 6,
+            paddingHorizontal: 5,
+            paddingVertical: 1,
+            borderWidth: 1,
+            borderColor: '#EAD0F5',
+          }}
+        >
+          <Text style={{ fontSize: 7.5, fontWeight: '800', color: '#6E32CC' }}>Dominant</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        {/* Stylized Mini Badminton Court */}
+        <Svg width={36} height={44} viewBox="0 0 36 44" fill="none">
+          <Rect x={1} y={1} width={34} height={42} rx={4} stroke="#6E32CC" strokeWidth={1.2} fill="#F9EDFD" />
+          <Line x1={1} y1={22} x2={35} y2={22} stroke="#6E32CC" strokeWidth={1.2} strokeDasharray="2 2" />
+          <Rect x={2.5} y={15} width={31} height={14} rx={2} fill="rgba(110, 50, 204, 0.2)" />
+          <Rect x={2.5} y={2.5} width={31} height={11} rx={2} fill="rgba(212, 108, 199, 0.18)" />
+          <Line x1={18} y1={1} x2={18} y2={43} stroke="#EAD0F5" strokeWidth={0.8} />
+        </Svg>
+
+        {/* Zone metrics */}
+        <View style={{ flex: 1, gap: 3 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 9.5, color: '#615092', fontWeight: '600' }}>Front Net</Text>
+            <Text style={{ fontSize: 10.5, fontWeight: '800', color: '#6E32CC' }}>{frontPct}%</Text>
+          </View>
+          <View style={{ width: '100%', height: 3.5, borderRadius: 2, backgroundColor: '#F8E9FD', overflow: 'hidden' }}>
+            <View style={{ width: `${frontPct}%`, height: '100%', borderRadius: 2, backgroundColor: '#6E32CC' }} />
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 1 }}>
+            <Text style={{ fontSize: 9.5, color: '#615092', fontWeight: '600' }}>Rear Court</Text>
+            <Text style={{ fontSize: 10.5, fontWeight: '800', color: '#D46CC7' }}>{rearPct}%</Text>
+          </View>
+          <View style={{ width: '100%', height: 3.5, borderRadius: 2, backgroundColor: '#F8E9FD', overflow: 'hidden' }}>
+            <View style={{ width: `${rearPct}%`, height: '100%', borderRadius: 2, backgroundColor: '#D46CC7' }} />
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+// ─── Infographic 2: Speed & Rally Intensity ──────────────────────────────────
+function SpeedTempoInfographic({
+  peakSmash = 318,
+  rallyTempo = 18.4,
+}: {
+  peakSmash?: number;
+  rallyTempo?: number;
+}) {
+  return (
+    <View style={{ gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: 9, color: '#D46CC7', fontWeight: '800', letterSpacing: 0.6 }}>
+          ⚡ SPEED & TEMPO
+        </Text>
+        <View
+          style={{
+            backgroundColor: '#F8E9FD',
+            borderRadius: 6,
+            paddingHorizontal: 5,
+            paddingVertical: 1,
+            borderWidth: 1,
+            borderColor: '#EAD0F5',
+          }}
+        >
+          <Text style={{ fontSize: 7.5, fontWeight: '800', color: '#D46CC7' }}>Fast Pace</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View
+          style={{
+            width: 36,
+            height: 44,
+            borderRadius: 6,
+            backgroundColor: '#F8E9FD',
+            borderWidth: 1,
+            borderColor: '#EAD0F5',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 1,
+          }}
+        >
+          <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+            <Path
+              d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
+              fill="#D46CC7"
+              stroke="#6E32CC"
+              strokeWidth={1.5}
+              strokeLinejoin="round"
+            />
+          </Svg>
+          <Text style={{ fontSize: 7, fontWeight: '800', color: '#6E32CC' }}>KM/H</Text>
+        </View>
+
+        {/* Stat metrics */}
+        <View style={{ flex: 1, gap: 3 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 9.5, color: '#615092', fontWeight: '600' }}>Peak Smash</Text>
+            <Text style={{ fontSize: 10.5, fontWeight: '800', color: '#0A0841' }}>{peakSmash}</Text>
+          </View>
+          <View style={{ width: '100%', height: 3.5, borderRadius: 2, backgroundColor: '#F8E9FD', overflow: 'hidden' }}>
+            <View style={{ width: '88%', height: '100%', borderRadius: 2, backgroundColor: '#6E32CC' }} />
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 1 }}>
+            <Text style={{ fontSize: 9.5, color: '#615092', fontWeight: '600' }}>Tempo</Text>
+            <Text style={{ fontSize: 10.5, fontWeight: '800', color: '#0A0841' }}>{rallyTempo}/m</Text>
+          </View>
+          <View style={{ width: '100%', height: 3.5, borderRadius: 2, backgroundColor: '#F8E9FD', overflow: 'hidden' }}>
+            <View style={{ width: '76%', height: '100%', borderRadius: 2, backgroundColor: '#D46CC7' }} />
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COACH SCREEN (1st Tab) - Fixed Viewport Snapping + Center-Aligned Headers
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -698,101 +837,9 @@ export default function CoachScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
       {/* ─────────────────────────────────────────────────────────────
-          TOP BRAND HEADER (BaddyIQ + Shuttlecock + Menu Icon)
+          TOP BRAND HEADER (BaddyIQ + Shuttlecock + Menu + Profile)
       ───────────────────────────────────────────────────────────── */}
-      <View
-        style={{
-          height: HEADER_HEIGHT,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 16,
-        }}
-      >
-        {/* Left: Menu Icon Button */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 19,
-            backgroundColor: 'rgba(249, 237, 253, 0.95)',
-            borderWidth: 1.2,
-            borderColor: '#EAD0F5',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#6E32CC',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.08,
-            shadowRadius: 6,
-            elevation: 2,
-          }}
-        >
-          <MenuIcon size={18} color="#6E32CC" />
-        </TouchableOpacity>
-
-        {/* Center: BaddyIQ Logo & Wordmark */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <View
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: '#6E32CC',
-              alignItems: 'center',
-              justifyContent: 'center',
-              shadowColor: '#6E32CC',
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.25,
-              shadowRadius: 6,
-              elevation: 3,
-            }}
-          >
-            <ShuttlecockIcon size={18} color="#FFFFFF" />
-          </View>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: '900',
-              color: '#0A0841',
-              letterSpacing: -0.5,
-            }}
-          >
-            Baddy<Text style={{ color: '#6E32CC' }}>IQ</Text>
-          </Text>
-        </View>
-
-        {/* Right: Profile Avatar */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 19,
-            backgroundColor: 'rgba(249, 237, 253, 0.95)',
-            borderWidth: 1.2,
-            borderColor: '#EAD0F5',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#6E32CC',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.08,
-            shadowRadius: 6,
-            elevation: 2,
-          }}
-        >
-          {user?.avatarUrl ? (
-            <Image
-              source={{ uri: user.avatarUrl }}
-              style={{ width: 34, height: 34, borderRadius: 17 }}
-            />
-          ) : (
-            <Text style={{ fontSize: 13, fontWeight: '800', color: '#6E32CC' }}>
-              {userName[0]}
-            </Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      <BrandHeader />
 
       {/* ─────────────────────────────────────────────────────────────
           MAIN CONTENT CONTAINER (Clean, Bounded & Viewport Snapped)
@@ -862,9 +909,9 @@ export default function CoachScreen() {
               </Text>
             </View>
 
-            {/* 1.1 Line Graph FIRST */}
+            {/* 1.1 Line Graph FIRST (Expanded size to fill space) */}
             <AnimatedGlassCard delay={40}>
-              <InteractiveMatchLineGraph data={rallyData} width={chartW} height={110} />
+              <InteractiveMatchLineGraph data={rallyData} width={chartW} height={165} />
             </AnimatedGlassCard>
 
             {/* 1.2 Players + MVP Crown + Score */}
@@ -1127,39 +1174,39 @@ export default function CoachScreen() {
             </View>
 
             {/* Donut Progress Ring + Metrics */}
-            <AnimatedGlassCard delay={120}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-                <DynamicProgressRing progress={perfScore} size={108} strokeWidth={10} color="#6E32CC">
-                  <Text style={{ fontSize: 24, fontWeight: '900', color: '#0A0841', letterSpacing: -1 }}>
+            <AnimatedGlassCard delay={120} style={{ padding: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <DynamicProgressRing progress={perfScore} size={92} strokeWidth={9} color="#6E32CC">
+                  <Text style={{ fontSize: 21, fontWeight: '900', color: '#0A0841', letterSpacing: -1 }}>
                     {perfScore}
                   </Text>
-                  <Text style={{ fontSize: 8.5, color: '#615092', fontWeight: '700' }}>Score</Text>
+                  <Text style={{ fontSize: 8, color: '#615092', fontWeight: '700' }}>Score</Text>
                 </DynamicProgressRing>
 
-                <View style={{ flex: 1, gap: 6 }}>
+                <View style={{ flex: 1, gap: 5 }}>
                   {[
                     {
                       label: 'Win Rate',
                       value: `${performanceUser.careerStats.winRate}%`,
-                      icon: <ShuttlecockIcon size={13} color="#6E32CC" />,
+                      icon: <ShuttlecockIcon size={12} color="#6E32CC" />,
                     },
                     {
                       label: 'Attack Power',
                       value: `${performanceUser.radar.attack}/100`,
-                      icon: <RacketIcon size={13} color="#D46CC7" />,
+                      icon: <RacketIcon size={12} color="#D46CC7" />,
                     },
                     {
                       label: 'Defence Index',
                       value: `${performanceUser.radar.defence}/100`,
-                      icon: <TargetIcon size={13} color="#8B52E3" />,
+                      icon: <TargetIcon size={12} color="#8B52E3" />,
                     },
                   ].map((m) => (
                     <View key={m.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                       <View
                         style={{
-                          width: 26,
-                          height: 26,
-                          borderRadius: 13,
+                          width: 24,
+                          height: 24,
+                          borderRadius: 12,
                           backgroundColor: '#F8E9FD',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -1168,10 +1215,10 @@ export default function CoachScreen() {
                         {m.icon}
                       </View>
                       <View>
-                        <Text style={{ fontSize: 13, fontWeight: '800', color: '#0A0841' }}>
+                        <Text style={{ fontSize: 12, fontWeight: '800', color: '#0A0841' }}>
                           {m.value}
                         </Text>
-                        <Text style={{ fontSize: 8.5, color: '#615092', fontWeight: '500' }}>
+                        <Text style={{ fontSize: 8, color: '#615092', fontWeight: '500' }}>
                           {m.label}
                         </Text>
                       </View>
@@ -1181,9 +1228,20 @@ export default function CoachScreen() {
               </View>
             </AnimatedGlassCard>
 
+            {/* 2-Column Infographics (Court Control & Speed/Tempo) */}
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <AnimatedGlassCard delay={160} style={{ flex: 1, padding: 10 }}>
+                <CourtControlInfographic frontPct={84} rearPct={76} />
+              </AnimatedGlassCard>
+
+              <AnimatedGlassCard delay={180} style={{ flex: 1, padding: 10 }}>
+                <SpeedTempoInfographic peakSmash={318} rallyTempo={18.4} />
+              </AnimatedGlassCard>
+            </View>
+
             {/* Shot Distribution */}
-            <AnimatedGlassCard delay={200}>
-              <Text style={{ fontSize: 11.5, fontWeight: '800', color: '#0A0841', marginBottom: 8 }}>
+            <AnimatedGlassCard delay={200} style={{ padding: 11 }}>
+              <Text style={{ fontSize: 11, fontWeight: '800', color: '#0A0841', marginBottom: 6 }}>
                 Shot Distribution
               </Text>
               <View style={{ flexDirection: 'row', gap: 6 }}>

@@ -62,7 +62,7 @@ export default function LeaderboardScreen() {
       <FlatList
         data={entries}
         keyExtractor={(e) => e.userId}
-        contentContainerStyle={{ gap: 8, paddingHorizontal: 20, paddingBottom: 40, paddingTop: 16 }}
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 20, paddingBottom: 100, paddingTop: 16 }}
         renderItem={({ item }) => (
           <LeaderboardCard
             entry={item}
