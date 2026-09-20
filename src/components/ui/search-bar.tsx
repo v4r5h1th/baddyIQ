@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { Pressable, TextInput, View } from 'react-native';
+import { useAppTheme } from '@/context/theme-context';
 
 interface SearchBarProps {
   value: string;
@@ -10,6 +11,8 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChangeText, placeholder = 'Search...', onSubmit }: SearchBarProps) {
+  const theme = useAppTheme();
+
   return (
     <View
       style={{
@@ -17,27 +20,27 @@ export function SearchBar({ value, onChangeText, placeholder = 'Search...', onSu
         alignItems: 'center',
         gap: 10,
         borderRadius: 18,
-        backgroundColor: '#F9EDFD',
+        backgroundColor: theme.card,
         borderWidth: 1,
-        borderColor: '#EAD0F5',
+        borderColor: theme.border,
         paddingHorizontal: 14,
         height: 48,
       }}
     >
-      <Feather name="search" size={18} color="#6E32CC" />
+      <Feather name="search" size={18} color={theme.primary} />
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#8F7FB8"
+        placeholderTextColor={theme.textMuted}
         returnKeyType="search"
         onSubmitEditing={onSubmit}
-        style={{ flex: 1, fontSize: 14, color: '#0A0841' }}
+        style={{ flex: 1, fontSize: 14, color: theme.text }}
         accessibilityLabel={placeholder}
       />
       {value ? (
         <Pressable onPress={() => onChangeText('')} hitSlop={8} accessibilityLabel="Clear search">
-          <Feather name="x" size={16} color="#8F7FB8" />
+          <Feather name="x" size={16} color={theme.textMuted} />
         </Pressable>
       ) : null}
     </View>

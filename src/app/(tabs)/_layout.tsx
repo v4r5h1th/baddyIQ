@@ -9,6 +9,7 @@ import {
 import { Slot, useSegments } from 'expo-router';
 import { TabBar } from '@/components/navigation/tab-bar';
 import { useTabNavigationStore } from '@/store/tab-navigation.store';
+import { useAppTheme } from '@/context/theme-context';
 import CoachScreen from './index';
 import MatchesScreen from './matches/index';
 import LeaderboardScreen from './leaderboard/index';
@@ -18,6 +19,7 @@ import ProfileScreen from './profile/index';
 export default function TabsLayout() {
   const segments = useSegments();
   const isSubroute = segments.length > 2; // e.g. ['(tabs)', 'leaderboard', 'compare']
+  const theme = useAppTheme();
 
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const horizontalScrollRef = useRef<ScrollView>(null);
@@ -55,7 +57,7 @@ export default function TabsLayout() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F5DDFD' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       {/* ─────────────────────────────────────────────────────────────
           INSTAGRAM-STYLE HORIZONTAL SWIPEABLE PAGER (5 TABS)
       ───────────────────────────────────────────────────────────── */}

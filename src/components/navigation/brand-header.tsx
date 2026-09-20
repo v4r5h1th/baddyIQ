@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/store/auth.store';
-
+import { useAppTheme } from '@/context/theme-context';
 import { useTabNavigationStore } from '@/store/tab-navigation.store';
 
 export const BRAND_HEADER_HEIGHT = 60;
@@ -42,6 +42,7 @@ interface BrandHeaderProps {
 export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
   const user = useAuthStore((s) => s.user);
   const userName = user?.name?.split(' ')[0] ?? 'Player';
+  const theme = useAppTheme();
 
   const handleProfilePress = () => {
     if (onProfilePress) {
@@ -69,19 +70,19 @@ export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
           width: 38,
           height: 38,
           borderRadius: 19,
-          backgroundColor: 'rgba(249, 237, 253, 0.95)',
+          backgroundColor: theme.card,
           borderWidth: 1.2,
-          borderColor: '#EAD0F5',
+          borderColor: theme.border,
           alignItems: 'center',
           justifyContent: 'center',
-          shadowColor: '#6E32CC',
+          shadowColor: theme.primary,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.08,
           shadowRadius: 6,
           elevation: 2,
         }}
       >
-        <MenuIcon size={18} color="#6E32CC" />
+        <MenuIcon size={18} color={theme.primary} />
       </TouchableOpacity>
 
       {/* Center: BaddyIQ Logo & Wordmark */}
@@ -91,10 +92,10 @@ export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
             width: 32,
             height: 32,
             borderRadius: 16,
-            backgroundColor: '#6E32CC',
+            backgroundColor: theme.primary,
             alignItems: 'center',
             justifyContent: 'center',
-            shadowColor: '#6E32CC',
+            shadowColor: theme.primary,
             shadowOffset: { width: 0, height: 3 },
             shadowOpacity: 0.25,
             shadowRadius: 6,
@@ -107,11 +108,11 @@ export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
           style={{
             fontSize: 20,
             fontWeight: '900',
-            color: '#0A0841',
+            color: theme.text,
             letterSpacing: -0.5,
           }}
         >
-          Baddy<Text style={{ color: '#6E32CC' }}>IQ</Text>
+          Baddy<Text style={{ color: theme.primary }}>IQ</Text>
         </Text>
       </View>
 
@@ -123,12 +124,12 @@ export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
           width: 38,
           height: 38,
           borderRadius: 19,
-          backgroundColor: 'rgba(249, 237, 253, 0.95)',
+          backgroundColor: theme.card,
           borderWidth: 1.2,
-          borderColor: '#EAD0F5',
+          borderColor: theme.border,
           alignItems: 'center',
           justifyContent: 'center',
-          shadowColor: '#6E32CC',
+          shadowColor: theme.primary,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.08,
           shadowRadius: 6,
@@ -141,7 +142,7 @@ export function BrandHeader({ onMenuPress, onProfilePress }: BrandHeaderProps) {
             style={{ width: 34, height: 34, borderRadius: 17 }}
           />
         ) : (
-          <Text style={{ fontSize: 13, fontWeight: '800', color: '#6E32CC' }}>
+          <Text style={{ fontSize: 13, fontWeight: '800', color: theme.primary }}>
             {userName[0]}
           </Text>
         )}

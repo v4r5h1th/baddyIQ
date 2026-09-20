@@ -3,9 +3,10 @@ import { SegmentedControl } from '@/components/ui/segmented-control';
 import { useAuthStore } from '@/store/auth.store';
 import { useLeaderboardStore } from '@/store/leaderboard.store';
 import type { LeaderboardPeriod, LeaderboardScope } from '@/types';
+import { useAppTheme } from '@/context/theme-context';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -23,6 +24,7 @@ const periods: { value: LeaderboardPeriod; label: string }[] = [
 ];
 
 export default function LeaderboardScreen() {
+  const theme = useAppTheme();
   const { scope, setScope, period, setPeriod, entries, fetch: fetchEntries } = useLeaderboardStore();
   const user = useAuthStore((s) => s.user);
 
@@ -31,10 +33,10 @@ export default function LeaderboardScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }} edges={['top']}>
       <View style={{ gap: 12, paddingHorizontal: 20, paddingTop: 8 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>Leaderboard</Text>
+          <Text style={{ fontSize: 26, fontWeight: '800', color: theme.text, letterSpacing: -0.5 }}>Leaderboard</Text>
           <Pressable
             onPress={() => router.push('/(tabs)/leaderboard/compare')}
             style={{
@@ -42,18 +44,20 @@ export default function LeaderboardScreen() {
               alignItems: 'center',
               gap: 6,
               borderRadius: 20,
-              backgroundColor: '#F9EDFD',
+              backgroundColor: theme.card,
+              borderWidth: 1,
+              borderColor: theme.border,
               paddingHorizontal: 14,
               paddingVertical: 8,
-              shadowColor: '#6E32CC',
+              shadowColor: theme.primary,
               shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.1,
               shadowRadius: 8,
               elevation: 2,
             }}
           >
-            <Feather name="users" size={14} color="#6E32CC" />
-            <Text style={{ fontSize: 12, fontWeight: '700', color: '#6E32CC' }}>Compare</Text>
+            <Feather name="users" size={14} color={theme.primary} />
+            <Text style={{ fontSize: 12, fontWeight: '700', color: theme.primary }}>Compare</Text>
           </Pressable>
         </View>
         <SegmentedControl options={scopes} value={scope} onChange={setScope} />

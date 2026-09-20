@@ -4,10 +4,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle } from 'react-native-svg';
 import { TAB_ROUTES, TabName } from '@/store/tab-navigation.store';
+import { useAppTheme } from '@/context/theme-context';
 
-// Custom icons matching the sleek palette
-function CoachIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+// Custom icons — color injected at call site
+function CoachIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
@@ -23,8 +24,8 @@ function CoachIcon({ active }: { active: boolean }) {
   );
 }
 
-function MatchesIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+function MatchesIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
@@ -39,7 +40,7 @@ function MatchesIcon({ active }: { active: boolean }) {
   );
 }
 
-function LeaderboardIcon({ active }: { active: boolean }) {
+function LeaderboardIcon({ primary }: { active: boolean; primary: string; secondary: string }) {
   return (
     <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
       <Path
@@ -54,8 +55,8 @@ function LeaderboardIcon({ active }: { active: boolean }) {
   );
 }
 
-function HomeIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+function HomeIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
@@ -70,8 +71,8 @@ function HomeIcon({ active }: { active: boolean }) {
   );
 }
 
-function ProfileIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+function ProfileIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Circle cx={12} cy={8} r={4} stroke={color} strokeWidth={1.8} fill="none" />
@@ -86,7 +87,10 @@ function ProfileIcon({ active }: { active: boolean }) {
   );
 }
 
-const tabIcons: Record<string, (props: { active: boolean }) => React.JSX.Element> = {
+const tabIconComponents: Record<
+  string,
+  (props: { active: boolean; primary: string; secondary: string }) => React.JSX.Element
+> = {
   index: CoachIcon,
   matches: MatchesIcon,
   leaderboard: LeaderboardIcon,
@@ -104,6 +108,7 @@ export interface CustomTabBarProps {
 export function TabBar(props: CustomTabBarProps) {
   const insets = useSafeAreaInsets();
   const { state, navigation, activeIndex = 0, onTabPress } = props;
+  const theme = useAppTheme();
 
   const isNavigationMode = Boolean(state && navigation);
 
@@ -132,18 +137,18 @@ export function TabBar(props: CustomTabBarProps) {
         backgroundColor: 'transparent',
       }}
     >
-      {/* Pill container with secondary surface #F8E9FD */}
+      {/* Pill container */}
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: '#F8E9FD',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 40,
           paddingVertical: 6,
           paddingHorizontal: 8,
           borderWidth: 1,
-          borderColor: '#EAD0F5',
-          shadowColor: '#6E32CC',
+          borderColor: theme.border,
+          shadowColor: theme.primary,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.12,
           shadowRadius: 16,
@@ -152,7 +157,7 @@ export function TabBar(props: CustomTabBarProps) {
       >
         {routes.map((route, i) => {
           const focused = currentIndex === i;
-          const Icon = tabIcons[route.name] ?? CoachIcon;
+          const Icon = tabIconComponents[route.name] ?? CoachIcon;
           const isCenter = route.name === 'leaderboard';
 
           const handlePress = () => {
@@ -174,7 +179,7 @@ export function TabBar(props: CustomTabBarProps) {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             >
               {isCenter ? (
-                // Center elevated button with primary purple gradient #8B52E3 -> #6E32CC
+                // Center elevated button with primary gradient
                 <View
                   style={{
                     width: 50,
@@ -182,7 +187,7 @@ export function TabBar(props: CustomTabBarProps) {
                     borderRadius: 25,
                     overflow: 'hidden',
                     marginTop: -14,
-                    shadowColor: '#6E32CC',
+                    shadowColor: theme.primary,
                     shadowOffset: { width: 0, height: 4 },
                     shadowOpacity: 0.35,
                     shadowRadius: 10,
@@ -190,27 +195,27 @@ export function TabBar(props: CustomTabBarProps) {
                   }}
                 >
                   <LinearGradient
-                    colors={['#8B52E3', '#6E32CC']}
+                    colors={[theme.accent, theme.primary] as [string, string]}
                     style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 25 }}
                   >
-                    <Icon active={focused} />
+                    <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                   </LinearGradient>
                 </View>
               ) : focused ? (
                 // Active tab: soft accent highlight
                 <View
                   style={{
-                    backgroundColor: '#F9EDFD',
+                    backgroundColor: theme.card,
                     borderRadius: 22,
                     paddingHorizontal: 12,
                     paddingVertical: 7,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderWidth: 1,
-                    borderColor: '#EAD0F5',
+                    borderColor: theme.border,
                   }}
                 >
-                  <Icon active={focused} />
+                  <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                 </View>
               ) : (
                 // Inactive tab
@@ -222,7 +227,7 @@ export function TabBar(props: CustomTabBarProps) {
                     justifyContent: 'center',
                   }}
                 >
-                  <Icon active={focused} />
+                  <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                 </View>
               )}
             </Pressable>
