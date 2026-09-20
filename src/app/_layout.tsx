@@ -1,6 +1,7 @@
 import '@/global.css';
 
 import { ToastHost } from '@/components/ui/toast';
+import { ThemeProvider } from '@/context/theme-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -24,9 +25,11 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <StatusBar style="light" />
-          <Stack screenOptions={{ headerShown: false, animation: 'fade' }} />
-          <ToastHost />
+          <ThemeProvider>
+            <StatusBar style="light" />
+            <Stack screenOptions={{ headerShown: false, animation: 'fade' }} />
+            <ToastHost />
+          </ThemeProvider>
         </QueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

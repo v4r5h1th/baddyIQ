@@ -2,12 +2,15 @@ import type { BottomTabBarProps } from 'expo-router/tabs';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Path, Circle } from 'react-native-svg';
-import { TAB_ROUTES, TabName } from '@/store/tab-navigation.store';
+import Svg, { Path, Circle, Line } from 'react-native-svg';
+import { router } from 'expo-router';
+import { TAB_ROUTES, TabName, useTabNavigationStore } from '@/store/tab-navigation.store';
+import { useAppTheme } from '@/context/theme-context';
+import { useRecordFlowStore } from '@/store/record-flow.store';
 
-// Custom icons matching the sleek palette
-function CoachIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+// ─── 1st Tab: Coach (Shuttlecock) ─────────────────────────────────────────────
+function CoachIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
@@ -23,58 +26,64 @@ function CoachIcon({ active }: { active: boolean }) {
   );
 }
 
-function MatchesIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+// ─── 2nd Tab: Matches (Trophy / Leaderboard Icon switched with 3rd tab) ───────
+function MatchesTrophyIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M15 10L19.5528 7.72361C20.2177 7.39116 21 7.87465 21 8.61803V15.382C21 16.1253 20.2177 16.6088 19.5528 16.2764L15 14M5 18H13C14.1046 18 15 17.1046 15 16V8C15 6.89543 14.1046 6 13 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18Z"
+        d="M8 21H16M12 17V21M6 4H4C4 7 5 9 8 10.5C8 13.5 9.5 16 12 17C14.5 16 16 13.5 16 10.5C19 9 20 7 20 4H18M6 4H18M6 4C6 7 7 9 10 10"
         stroke={color}
         strokeWidth={1.8}
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="none"
+        fill={active ? color : 'none'}
       />
     </Svg>
   );
 }
 
-function LeaderboardIcon({ active }: { active: boolean }) {
+// ─── 3rd Tab: Record (Video Camera Icon switched with 2nd tab — Center Elevated)
+function CenterRecordVideoIcon({ active, primary }: { active: boolean; primary: string; secondary: string }) {
   return (
     <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M8 21H16M12 17V21M6 4H4C4 7 5 9 8 10.5C8 13.5 9.5 16 12 17C14.5 16 16 13.5 16 10.5C19 9 20 7 20 4H18M6 4H18M6 4C6 7 7 9 10 10"
+        d="M15 10L19.5528 7.72361C20.2177 7.39116 21 7.87465 21 8.61803V15.382C21 16.1253 20.2177 16.6088 19.5528 16.2764L15 14M5 18H13C14.1046 18 15 17.1046 15 16V8C15 6.89543 14.1046 6 13 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18Z"
         stroke="#FFFFFF"
-        strokeWidth={2}
+        strokeWidth={2.2}
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="none"
+        fill={active ? '#FFFFFF' : 'none'}
       />
     </Svg>
   );
 }
 
-function HomeIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+// ─── 4th Tab: Leaderboard / Analytics Bar Chart ──────────────────────────────
+function LeaderboardChartIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
+      <Line x1={18} y1={20} x2={18} y2={10} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Line x1={12} y1={20} x2={12} y2={4} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Line x1={6} y1={20} x2={6} y2={14} stroke={color} strokeWidth={2} strokeLinecap="round" />
       <Path
-        d="M3 12L12 4L21 12V20C21 20.5523 20.5523 21 20 21H15V16H9V21H4C3.44772 21 3 20.5523 3 20V12Z"
+        d="M4 8L9 4L14 8L20 2"
         stroke={color}
-        strokeWidth={1.8}
+        strokeWidth={1.6}
         strokeLinecap="round"
         strokeLinejoin="round"
-        fill="none"
       />
     </Svg>
   );
 }
 
-function ProfileIcon({ active }: { active: boolean }) {
-  const color = active ? '#6E32CC' : '#615092';
+// ─── 5th Tab: Profile (User Icon) ─────────────────────────────────────────────
+function ProfileIcon({ active, primary, secondary }: { active: boolean; primary: string; secondary: string }) {
+  const color = active ? primary : secondary;
   return (
     <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-      <Circle cx={12} cy={8} r={4} stroke={color} strokeWidth={1.8} fill="none" />
+      <Circle cx={12} cy={8} r={4} stroke={color} strokeWidth={1.8} fill={active ? color : 'none'} />
       <Path
         d="M4 20C4 17.2386 7.58172 15 12 15C16.4183 15 20 17.2386 20 20"
         stroke={color}
@@ -86,11 +95,14 @@ function ProfileIcon({ active }: { active: boolean }) {
   );
 }
 
-const tabIcons: Record<string, (props: { active: boolean }) => React.JSX.Element> = {
+const tabIconComponents: Record<
+  string,
+  (props: { active: boolean; primary: string; secondary: string }) => React.JSX.Element
+> = {
   index: CoachIcon,
-  matches: MatchesIcon,
-  leaderboard: LeaderboardIcon,
-  home: HomeIcon,
+  matches: MatchesTrophyIcon,
+  record: CenterRecordVideoIcon,
+  leaderboard: LeaderboardChartIcon,
   profile: ProfileIcon,
 };
 
@@ -104,6 +116,7 @@ export interface CustomTabBarProps {
 export function TabBar(props: CustomTabBarProps) {
   const insets = useSafeAreaInsets();
   const { state, navigation, activeIndex = 0, onTabPress } = props;
+  const theme = useAppTheme();
 
   const isNavigationMode = Boolean(state && navigation);
 
@@ -132,18 +145,18 @@ export function TabBar(props: CustomTabBarProps) {
         backgroundColor: 'transparent',
       }}
     >
-      {/* Pill container with secondary surface #F8E9FD */}
+      {/* Pill container */}
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: '#F8E9FD',
+          backgroundColor: theme.surfaceSecondary,
           borderRadius: 40,
           paddingVertical: 6,
           paddingHorizontal: 8,
           borderWidth: 1,
-          borderColor: '#EAD0F5',
-          shadowColor: '#6E32CC',
+          borderColor: theme.border,
+          shadowColor: theme.primary,
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.12,
           shadowRadius: 16,
@@ -152,15 +165,19 @@ export function TabBar(props: CustomTabBarProps) {
       >
         {routes.map((route, i) => {
           const focused = currentIndex === i;
-          const Icon = tabIcons[route.name] ?? CoachIcon;
-          const isCenter = route.name === 'leaderboard';
+          const Icon = tabIconComponents[route.name] ?? CoachIcon;
+          const isCenter = route.name === 'record' || i === 2;
 
           const handlePress = () => {
-            if (isNavigationMode && navigation && state) {
-              const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-              if (!focused && !event.defaultPrevented) navigation.navigate(route.name);
-            } else if (onTabPress) {
+            if (route.name === 'record') {
+              // Ensure record flow starts at Screen 1 (Allow Location)
+              useRecordFlowStore.getState().goToStep(1);
+            }
+
+            if (onTabPress) {
               onTabPress(i);
+            } else {
+              useTabNavigationStore.getState().goToTab(i);
             }
           };
 
@@ -174,43 +191,43 @@ export function TabBar(props: CustomTabBarProps) {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             >
               {isCenter ? (
-                // Center elevated button with primary purple gradient #8B52E3 -> #6E32CC
+                // Center elevated button with video camera icon & primary gradient
                 <View
                   style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 25,
+                    width: 52,
+                    height: 52,
+                    borderRadius: 26,
                     overflow: 'hidden',
-                    marginTop: -14,
-                    shadowColor: '#6E32CC',
+                    marginTop: -16,
+                    shadowColor: theme.primary,
                     shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.35,
+                    shadowOpacity: 0.38,
                     shadowRadius: 10,
                     elevation: 8,
                   }}
                 >
                   <LinearGradient
-                    colors={['#8B52E3', '#6E32CC']}
-                    style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 25 }}
+                    colors={[theme.accentDark || theme.primary, theme.primary] as [string, string]}
+                    style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 26 }}
                   >
-                    <Icon active={focused} />
+                    <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                   </LinearGradient>
                 </View>
               ) : focused ? (
                 // Active tab: soft accent highlight
                 <View
                   style={{
-                    backgroundColor: '#F9EDFD',
+                    backgroundColor: theme.card,
                     borderRadius: 22,
                     paddingHorizontal: 12,
                     paddingVertical: 7,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderWidth: 1,
-                    borderColor: '#EAD0F5',
+                    borderColor: theme.border,
                   }}
                 >
-                  <Icon active={focused} />
+                  <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                 </View>
               ) : (
                 // Inactive tab
@@ -222,7 +239,7 @@ export function TabBar(props: CustomTabBarProps) {
                     justifyContent: 'center',
                   }}
                 >
-                  <Icon active={focused} />
+                  <Icon active={focused} primary={theme.primary} secondary={theme.textSecondary} />
                 </View>
               )}
             </Pressable>

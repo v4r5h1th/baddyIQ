@@ -5,14 +5,17 @@ import { useMatchesStore } from '@/store/matches.store';
 import { useNotificationsStore } from '@/store/notifications.store';
 import { formatCompactNumber, formatSigned } from '@/utils/format';
 import { useTabNavigationStore } from '@/store/tab-navigation.store';
+import { useRecordFlowStore } from '@/store/record-flow.store';
+import { useAppTheme } from '@/context/theme-context';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const theme = useAppTheme();
   const user = useAuthStore((s) => s.user);
   const { matches, fetchMatches } = useMatchesStore();
   const { items: notifications, fetch: fetchNotifications } = useNotificationsStore();
@@ -26,7 +29,7 @@ export default function HomeScreen() {
   const recentNotifications = notifications.slice(0, 3);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }} edges={['top']}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 20, paddingHorizontal: 20, paddingBottom: 100, paddingTop: 8 }}
@@ -34,8 +37,8 @@ export default function HomeScreen() {
         {/* ── Header ─────────────────────────────────────────────────── */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View>
-            <Text style={{ fontSize: 13, color: '#615092', fontWeight: '500' }}>Welcome back,</Text>
-            <Text style={{ fontSize: 26, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>
+            <Text style={{ fontSize: 13, color: theme.textSecondary, fontWeight: '500' }}>Welcome back,</Text>
+            <Text style={{ fontSize: 26, fontWeight: '800', color: theme.text, letterSpacing: -0.5 }}>
               {user?.name?.split(' ')[0] ?? 'Player'} 👋
             </Text>
           </View>
@@ -46,17 +49,19 @@ export default function HomeScreen() {
               width: 44,
               height: 44,
               borderRadius: 22,
-              backgroundColor: '#F9EDFD',
+              backgroundColor: theme.card,
+              borderWidth: 1,
+              borderColor: theme.border,
               alignItems: 'center',
               justifyContent: 'center',
-              shadowColor: '#6E32CC',
+              shadowColor: theme.primary,
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.12,
               shadowRadius: 10,
               elevation: 4,
             }}
           >
-            <Feather name="bell" size={20} color="#6E32CC" />
+            <Feather name="bell" size={20} color={theme.primary} />
             {notifications.some((n) => !n.read) ? (
               <View
                 style={{
@@ -66,7 +71,7 @@ export default function HomeScreen() {
                   width: 8,
                   height: 8,
                   borderRadius: 4,
-                  backgroundColor: '#D46CC7',
+                  backgroundColor: theme.accentDark,
                 }}
               />
             ) : null}
@@ -78,11 +83,14 @@ export default function HomeScreen() {
 
         {/* ── Record a Match CTA ──────────────────────────────────────── */}
         <Pressable
-          onPress={() => router.push('/record')}
+          onPress={() => {
+            useRecordFlowStore.getState().goToStep(1);
+            useTabNavigationStore.getState().goToTab('record');
+          }}
           style={{ borderRadius: 24, overflow: 'hidden' }}
         >
           <LinearGradient
-            colors={['#8B52E3', '#6E32CC']}
+            colors={[theme.accentDark || theme.primary, theme.primary] as [string, string]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{
@@ -149,17 +157,19 @@ export default function HomeScreen() {
                   alignItems: 'center',
                   gap: 8,
                   borderRadius: 20,
-                  backgroundColor: '#F9EDFD',
+                  backgroundColor: theme.card,
+                  borderWidth: 1,
+                  borderColor: theme.border,
                   paddingVertical: 18,
-                  shadowColor: '#6E32CC',
+                  shadowColor: theme.primary,
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.08,
                   shadowRadius: 12,
                   elevation: 3,
                 }}
               >
-                <Feather name={action.icon} size={20} color="#6E32CC" />
-                <Text style={{ fontSize: 12, fontWeight: '600', color: '#615092' }}>{action.label}</Text>
+                <Feather name={action.icon} size={20} color={theme.primary} />
+                <Text style={{ fontSize: 12, fontWeight: '600', color: theme.textSecondary }}>{action.label}</Text>
               </Pressable>
             ))}
           </View>
@@ -178,9 +188,11 @@ export default function HomeScreen() {
                     alignItems: 'center',
                     gap: 12,
                     borderRadius: 16,
-                    backgroundColor: '#F9EDFD',
+                    backgroundColor: theme.card,
+                    borderWidth: 1,
+                    borderColor: theme.border,
                     padding: 14,
-                    shadowColor: '#6E32CC',
+                    shadowColor: theme.primary,
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.06,
                     shadowRadius: 8,
@@ -192,14 +204,14 @@ export default function HomeScreen() {
                       width: 36,
                       height: 36,
                       borderRadius: 18,
-                      backgroundColor: '#F8E9FD',
+                      backgroundColor: theme.surfaceSecondary,
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
                   >
-                    <Feather name="bell" size={14} color="#6E32CC" />
+                    <Feather name="bell" size={14} color={theme.primary} />
                   </View>
-                  <Text numberOfLines={2} style={{ flex: 1, fontSize: 12, color: '#615092' }}>
+                  <Text numberOfLines={2} style={{ flex: 1, fontSize: 12, color: theme.textSecondary }}>
                     {n.title}
                   </Text>
                 </View>

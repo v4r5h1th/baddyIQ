@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-export type TabName = 'index' | 'matches' | 'leaderboard' | 'home' | 'profile';
+export type TabName = 'index' | 'matches' | 'record' | 'leaderboard' | 'profile';
 
 export const TAB_ROUTES: { name: TabName; label: string; index: number }[] = [
   { name: 'index', label: 'Coach', index: 0 },
   { name: 'matches', label: 'Matches', index: 1 },
-  { name: 'leaderboard', label: 'Ranks', index: 2 },
-  { name: 'home', label: 'Home', index: 3 },
+  { name: 'record', label: 'Record', index: 2 },
+  { name: 'leaderboard', label: 'Leaderboard', index: 3 },
   { name: 'profile', label: 'Profile', index: 4 },
 ];
 

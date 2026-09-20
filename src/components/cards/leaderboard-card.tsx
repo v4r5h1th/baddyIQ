@@ -1,13 +1,8 @@
 import { Avatar } from '@/components/ui/avatar';
 import type { LeaderboardEntry } from '@/types';
+import { useAppTheme } from '@/context/theme-context';
 import { Feather } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
-
-const trendIcon: Record<LeaderboardEntry['trend'], { name: 'arrow-up' | 'arrow-down' | 'minus'; color: string }> = {
-  up: { name: 'arrow-up', color: '#6E32CC' },
-  down: { name: 'arrow-down', color: '#D46CC7' },
-  same: { name: 'minus', color: '#8F7FB8' },
-};
 
 interface LeaderboardCardProps {
   entry: LeaderboardEntry;
@@ -16,7 +11,17 @@ interface LeaderboardCardProps {
 }
 
 export function LeaderboardCard({ entry, highlight = false, onPress }: LeaderboardCardProps) {
-  const trend = trendIcon[entry.trend];
+  const theme = useAppTheme();
+
+  const trendColor =
+    entry.trend === 'up'
+      ? theme.primary
+      : entry.trend === 'down'
+      ? theme.accentDark
+      : theme.textMuted;
+
+  const trendIconName: 'arrow-up' | 'arrow-down' | 'minus' =
+    entry.trend === 'up' ? 'arrow-up' : entry.trend === 'down' ? 'arrow-down' : 'minus';
 
   return (
     <Pressable
@@ -26,11 +31,11 @@ export function LeaderboardCard({ entry, highlight = false, onPress }: Leaderboa
         alignItems: 'center',
         gap: 12,
         borderRadius: 20,
-        backgroundColor: highlight ? '#F8E9FD' : '#F9EDFD',
+        backgroundColor: highlight ? theme.surfaceSecondary : theme.card,
         borderWidth: highlight ? 2 : 1,
-        borderColor: highlight ? '#6E32CC' : '#EAD0F5',
+        borderColor: highlight ? theme.primary : theme.border,
         padding: 14,
-        shadowColor: '#6E32CC',
+        shadowColor: theme.primary,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: highlight ? 0.12 : 0.04,
         shadowRadius: 8,
@@ -43,7 +48,7 @@ export function LeaderboardCard({ entry, highlight = false, onPress }: Leaderboa
           style={{
             fontSize: 16,
             fontWeight: '800',
-            color: entry.rank <= 3 ? '#6E32CC' : '#615092',
+            color: entry.rank <= 3 ? theme.primary : theme.textSecondary,
           }}
         >
           {entry.rank}
@@ -54,22 +59,22 @@ export function LeaderboardCard({ entry, highlight = false, onPress }: Leaderboa
       <Avatar uri={entry.avatarUrl} name={entry.name} size={40} />
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-          <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: '700', color: '#0A0841' }}>
+          <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>
             {entry.name}
           </Text>
           <Text style={{ fontSize: 12 }}>{entry.countryFlag}</Text>
         </View>
-        <Text style={{ fontSize: 11, color: '#615092', marginTop: 1 }}>
+        <Text style={{ fontSize: 11, color: theme.textSecondary, marginTop: 1 }}>
           {entry.winRate}% win rate · {entry.currentStreak} streak
         </Text>
       </View>
 
       {/* Rating & Trend */}
       <View style={{ alignItems: 'flex-end', gap: 2 }}>
-        <Text style={{ fontSize: 16, fontWeight: '800', color: '#0A0841' }}>{entry.rating}</Text>
+        <Text style={{ fontSize: 16, fontWeight: '800', color: theme.text }}>{entry.rating}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-          <Feather name={trend.name} size={12} color={trend.color} />
-          <Text style={{ fontSize: 10, fontWeight: '600', color: trend.color }}>
+          <Feather name={trendIconName} size={12} color={trendColor} />
+          <Text style={{ fontSize: 10, fontWeight: '600', color: trendColor }}>
             {entry.trendDelta > 0 ? `+${entry.trendDelta}` : `${entry.trendDelta}`}
           </Text>
         </View>

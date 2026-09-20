@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
+import { useAppTheme } from '@/context/theme-context';
 
 interface StatisticCardProps {
   icon: keyof typeof Feather.glyphMap;
@@ -11,17 +12,19 @@ interface StatisticCardProps {
 }
 
 export function StatisticCard({ icon, label, value, trend, trendPositive = true }: StatisticCardProps) {
+  const theme = useAppTheme();
+
   return (
     <View
       style={{
         flex: 1,
         gap: 8,
         borderRadius: 20,
-        backgroundColor: '#F9EDFD',
+        backgroundColor: theme.card,
         padding: 16,
         borderWidth: 1,
-        borderColor: '#EAD0F5',
-        shadowColor: '#6E32CC',
+        borderColor: theme.border,
+        shadowColor: theme.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.08,
         shadowRadius: 12,
@@ -33,21 +36,21 @@ export function StatisticCard({ icon, label, value, trend, trendPositive = true 
           width: 36,
           height: 36,
           borderRadius: 18,
-          backgroundColor: '#F8E9FD',
+          backgroundColor: theme.surfaceSecondary,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Feather name={icon} size={18} color="#6E32CC" />
+        <Feather name={icon} size={18} color={theme.primary} />
       </View>
-      <Text style={{ fontSize: 11, color: '#615092' }}>{label}</Text>
-      <Text style={{ fontSize: 22, fontWeight: '800', color: '#0A0841', letterSpacing: -0.5 }}>{value}</Text>
+      <Text style={{ fontSize: 11, color: theme.textSecondary }}>{label}</Text>
+      <Text style={{ fontSize: 22, fontWeight: '800', color: theme.text, letterSpacing: -0.5 }}>{value}</Text>
       {trend ? (
         <Text
           style={{
             fontSize: 10,
             fontWeight: '600',
-            color: trendPositive ? '#6E32CC' : '#D46CC7',
+            color: trendPositive ? theme.primary : theme.accentDark,
           }}
         >
           {trend}

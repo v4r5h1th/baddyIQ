@@ -9,6 +9,7 @@ import { SearchBar } from '@/components/ui/search-bar';
 import { SegmentedControl } from '@/components/ui/segmented-control';
 import type { MatchFilter } from '@/store/matches.store';
 import { useMatchesStore } from '@/store/matches.store';
+import { useAppTheme } from '@/context/theme-context';
 
 const filters: { value: MatchFilter; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -18,6 +19,7 @@ const filters: { value: MatchFilter; label: string }[] = [
 ];
 
 export default function MatchesScreen() {
+  const theme = useAppTheme();
   const {
     matches,
     fetchMatches,
@@ -44,7 +46,7 @@ export default function MatchesScreen() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }} edges={['top']}>
       {/* ─────────────────────────────────────────────────────────────
           TOP BRAND HEADER (Consistent with Tab 1)
       ───────────────────────────────────────────────────────────── */}
@@ -60,8 +62,8 @@ export default function MatchesScreen() {
           marginBottom: 8,
           borderRadius: 30,
           borderWidth: 1.8,
-          borderColor: '#EAD0F5',
-          backgroundColor: 'rgba(248, 233, 253, 0.65)',
+          borderColor: theme.border,
+          backgroundColor: theme.surfaceSecondary,
           overflow: 'hidden',
           paddingTop: 16,
         }}
@@ -72,7 +74,7 @@ export default function MatchesScreen() {
             style={{
               fontSize: 26,
               fontWeight: '900',
-              color: '#0A0841',
+              color: theme.text,
               letterSpacing: -0.8,
               textAlign: 'center',
             }}
@@ -82,7 +84,7 @@ export default function MatchesScreen() {
           <Text
             style={{
               fontSize: 13,
-              color: '#615092',
+              color: theme.textSecondary,
               marginTop: 2,
               fontWeight: '600',
               textAlign: 'center',
