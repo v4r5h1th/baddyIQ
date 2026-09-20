@@ -4,6 +4,7 @@ import { useAuthStore } from '@/store/auth.store';
 import { useMatchesStore } from '@/store/matches.store';
 import { useNotificationsStore } from '@/store/notifications.store';
 import { formatCompactNumber, formatSigned } from '@/utils/format';
+import { useTabNavigationStore } from '@/store/tab-navigation.store';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -28,7 +29,7 @@ export default function HomeScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F5DDFD' }} edges={['top']}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ gap: 20, paddingHorizontal: 20, paddingBottom: 40, paddingTop: 8 }}
+        contentContainerStyle={{ gap: 20, paddingHorizontal: 20, paddingBottom: 100, paddingTop: 8 }}
       >
         {/* ── Header ─────────────────────────────────────────────────── */}
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -126,7 +127,7 @@ export default function HomeScreen() {
         {latestMatch ? (
           <View style={{ gap: 12 }}>
             <SectionHeader title="Coach Insight" />
-            <CoachCard summary={latestMatch.coachSummary} onPress={() => router.push('/(tabs)')} />
+            <CoachCard summary={latestMatch.coachSummary} onPress={() => useTabNavigationStore.getState().goToTab('index')} />
           </View>
         ) : null}
 
@@ -135,14 +136,14 @@ export default function HomeScreen() {
           <SectionHeader title="Quick Actions" />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
             {[
-              { label: 'Training', icon: 'activity' as const, href: '/training' as const },
-              { label: 'Leaderboard', icon: 'award' as const, href: '/(tabs)/leaderboard' as const },
-              { label: 'Achievements', icon: 'star' as const, href: '/profile/achievements' as const },
-              { label: 'Settings', icon: 'settings' as const, href: '/settings' as const },
+              { label: 'Training', icon: 'activity' as const, onPress: () => router.push('/training') },
+              { label: 'Leaderboard', icon: 'award' as const, onPress: () => useTabNavigationStore.getState().goToTab('leaderboard') },
+              { label: 'Achievements', icon: 'star' as const, onPress: () => router.push('/profile/achievements') },
+              { label: 'Settings', icon: 'settings' as const, onPress: () => router.push('/settings') },
             ].map((action) => (
               <Pressable
                 key={action.label}
-                onPress={() => router.push(action.href)}
+                onPress={action.onPress}
                 style={{
                   width: '47%',
                   alignItems: 'center',
