@@ -117,14 +117,14 @@ export default function HomeScreen() {
         {/* ── Latest Match ────────────────────────────────────────────── */}
         {latestMatch ? (
           <View style={{ gap: 12 }}>
-            <SectionHeader title="Latest Match" actionLabel="View All" onActionPress={() => router.push('/matches')} />
+            <SectionHeader title="Latest Match" prominent actionLabel="View All" onActionPress={() => router.push('/matches')} />
             <MatchCard match={latestMatch} />
           </View>
         ) : null}
 
         {/* ── Weekly Progress ─────────────────────────────────────────── */}
         <View style={{ gap: 12 }}>
-          <SectionHeader title="Weekly Progress" actionLabel="Full Report" onActionPress={() => router.push('/weekly-report')} />
+          <SectionHeader title="Weekly Progress" prominent actionLabel="Full Report" onActionPress={() => router.push('/weekly-report')} />
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <StatisticCard icon="activity" label="Matches Played" value="4" />
             <StatisticCard icon="target" label="Avg Score" value="78" trend={formatSigned(6)} trendPositive />
@@ -134,7 +134,7 @@ export default function HomeScreen() {
         {/* ── Coach Insight ───────────────────────────────────────────── */}
         {latestMatch ? (
           <View style={{ gap: 12 }}>
-            <SectionHeader title="Coach Insight" />
+            <SectionHeader title="Coach Insight" prominent />
             <CoachCard summary={latestMatch.coachSummary} onPress={() => useTabNavigationStore.getState().goToTab('index')} />
           </View>
         ) : null}

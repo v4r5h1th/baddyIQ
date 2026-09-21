@@ -2,9 +2,11 @@ export * from '@/components/cards/achievement-card';
 export * from '@/components/cards/coach-card';
 export * from '@/components/cards/drill-card';
 export * from '@/components/cards/leaderboard-card';
+export * from '@/components/cards/leaderboard-podium';
 export * from '@/components/cards/match-card';
 export * from '@/components/cards/mission-card';
 export * from '@/components/cards/notification-card';
 export * from '@/components/cards/performance-card';
 export * from '@/components/cards/player-card';
 export * from '@/components/cards/statistic-card';
+
